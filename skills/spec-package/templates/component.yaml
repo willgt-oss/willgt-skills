@@ -1,0 +1,46 @@
+# design/components/<ComponentName>.yaml — TEMPLATE
+#
+# Owner of writes: Design.
+# Required for: any type with a UI surface (see TYPES.md).
+#
+# A CLOSED contract. Closed means an implementer may not invent a variant or state
+# that is not listed here. If something is missing, it is added here first — that is
+# the point, and it is what stops a design system drifting into fifty button styles.
+#
+# ACCEPTABLE
+#   - Every variant and state the product actually uses today.
+#   - Tokens by name for every visual value.
+#   - An explicit note that a state does not apply.
+#
+# NOT ACCEPTABLE
+#   - Raw hex, px or font stacks. Use token names — a literal here is a token that
+#     will not follow a theme change.
+#   - A variant added "just in case". Unused variants are maintenance with no user.
+#   - Leaving disabled/loading undefined when the component takes an action. Undefined
+#     states get invented at implementation time, differently each time.
+
+component: <ComponentName>
+description: <one line — what it is for, and when NOT to use it>
+
+variants:
+  - id: primary
+    tokens:
+      background: <token-name>
+      foreground: <token-name>
+  - id: secondary
+    tokens:
+      background: <token-name>
+      foreground: <token-name>
+
+states:
+  default: <token or behavior>
+  hover: <token or behavior>
+  focus: <must be visible — keyboard users depend on it>
+  disabled: <token or behavior, or: not applicable — this component takes no action>
+  loading: <token or behavior, or: not applicable>
+
+# Content the component must handle without breaking. Text that can outgrow its
+# container wraps or scrolls; clipped text is a defect, not a styling choice.
+content_rules:
+  overflow: <wrap | scroll | truncate-with-full-text-available>
+  min_touch_target: <token — applies to anything tappable>

@@ -1,0 +1,13 @@
+{
+  "name": "willgt-skills",
+  "displayName": "WillGT Skills",
+  "description": "Open skills for change impact, technical design, and executable specification packages. Created by WillGT.",
+  "author": {
+    "name": "WillGT"
+  },
+  "homepage": "https://github.com/willgt-oss/willgt-skills",
+  "repository": "https://github.com/willgt-oss/willgt-skills",
+  "license": "Apache-2.0",
+  "version": "0.1.0",
+  "keywords": ["skills", "spec", "design", "impact", "willgt"]
+}

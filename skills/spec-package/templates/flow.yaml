@@ -1,0 +1,13 @@
+# App flow. Nodes are screen_id. Every edge has trigger, guard, and effect.
+# effect may be "no write" — that is a value, not an omitted field.
+# touches (optional): ids of existing screens/flows/paths/events this flow changes, confirmed by Product. Omit if none.
+# touches: [<screen_id>, <api path>]
+nodes:
+  - screen_id: <screen_id>
+  - screen_id: <other_screen_id>
+edges:
+  - from: <screen_id>
+    to: <other_screen_id>
+    trigger: <action id or event>
+    guard: <condition that must hold>
+    effect: no write

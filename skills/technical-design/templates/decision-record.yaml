@@ -1,0 +1,22 @@
+# Decision records for one feature.
+# Path: .willgt/decisions/<feature_id>.decisions.yaml
+# Append-only. A changed decision is a new record with supersedes: <old id>; the old record gets no edit.
+feature_id: <feature_id>
+records:
+  - id: DR-<n>                       # n = previous max + 1
+    date: <YYYY-MM-DD>
+    status: proposed | accepted | rejected | superseded
+    deciders: [implementer]          # or [human]; new_technology: yes -> deciders [human]
+    new_technology: no | yes         # yes = library, framework, provider, service, database, infra, or language not in the stack
+    ruling_ref: <DECISIONS.md line or human ruling text> | none   # required before status accepted when new_technology: yes
+    context: >-                      # 2 to 5 sentences: the force or constraint, nothing else
+      <context>
+    decision: >-                     # 1 to 3 sentences
+      <decision>
+    options:                         # at least two; the chosen one included
+      - <option>
+      - <option>
+    consequences:                    # one fact per line
+      - <consequence>
+    impact_refs: [<candidate_id>, ...]   # confirmed change-impact candidates this record answers
+    supersedes: <DR id> | none

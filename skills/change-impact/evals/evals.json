@@ -1,0 +1,88 @@
+{
+  "skill_name": "change-impact",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Product: run change-impact at intake for the new feature bulk-discount. It changes how cart totals are computed.",
+      "expected_output": "Searches existing spec files (PRD requirement ids, screen.yaml, flow.yaml, OpenAPI fragments, event schemas, ac.feature ids). Proposes each match as a candidate question to Product with its evidence. Writes candidates with status proposed. Confirms nothing on its own.",
+      "assertions": [
+        "Runs a search over spec files before proposing any candidate",
+        "Each candidate turn names the target id and an evidence file path",
+        "Each candidate is asked as a question ending in '?'",
+        "Every candidate written before a Product answer has status proposed",
+        "Writes no touches, depends_on or protected_ac value before a Product answer"
+      ],
+      "files": [
+        "skills/change-impact/SKILL.md",
+        "skills/change-impact/templates/impact-record.yaml"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Product answers the candidates for bulk-discount: C-1 REQ-CART-004 yes, C-2 checkout-summary screen yes, C-3 GET /orders no, C-4 AC-CART-011 yes. Finish the impact record and update the tickets.",
+      "expected_output": "Marks C-1, C-2, C-4 confirmed and C-3 rejected, with decided_by product. touches/affects holds REQ-CART-004 and checkout-summary; GET /orders appears nowhere in the confirmed lists. protected_ac AC-CART-011 is written to each ticket of the feature.",
+      "assertions": [
+        "C-3 has status rejected and GET /orders is absent from confirmed touches and depends_on",
+        "C-1, C-2 and C-4 have status confirmed and decided_by product",
+        "Every ticket of the feature gets a protected_ac frontmatter value containing AC-CART-011",
+        "No id appears in a confirmed list that Product did not confirm"
+      ],
+      "files": [
+        "skills/change-impact/SKILL.md"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Product: add the confirmed touches and depends_on of bulk-discount into its PRD.md and flow.yaml.",
+      "expected_output": "Writes the confirmed touches into the optional PRD.md ## Touches section and the flow.yaml touches list (spec-package 2.1.0). Does not add depends_on to either file, because depends_on is not a spec-package field; it stays in the impact record.",
+      "assertions": [
+        "Writes only Product-confirmed touches into PRD.md and flow.yaml",
+        "Does NOT add depends_on to any PRD.md or flow.yaml",
+        "Does NOT edit any file under skills/spec-package/",
+        "Keeps depends_on in the impact record file"
+      ],
+      "files": [
+        "skills/change-impact/SKILL.md"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "verifier: verify ticket bulk-discount-api at its tip. The ticket has protected_ac: AC-CART-011, AC-CART-012.",
+      "expected_output": "Reruns the ticket's own AC and also AC-CART-011 and AC-CART-012 against the ticket's environment. A failing protected AC is a bug finding that sends the ticket back, not a note.",
+      "assertions": [
+        "Runs AC-CART-011 and AC-CART-012 in addition to the ticket's own AC",
+        "Saves evidence for each protected AC",
+        "Does NOT move the ticket forward when a protected AC fails"
+      ],
+      "files": [
+        "skills/change-impact/SKILL.md"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "implementer: run change-impact at technical-design level for bulk-discount. A contract test shows the mobile app also consumes GET /cart/total.",
+      "expected_output": "Adds the consumer as a new candidate with source code-map and asks Product to confirm it. Leaves every existing confirmed link unchanged. Does not remove a confirmed link because the code map did not find it.",
+      "assertions": [
+        "Writes the new consumer as a candidate with source code-map and status proposed",
+        "Does NOT change the status of any previously confirmed candidate",
+        "Does NOT delete any confirmed id from touches, depends_on or protected_ac",
+        "Asks Product to confirm the new candidate as a question"
+      ],
+      "files": [
+        "skills/change-impact/SKILL.md"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Export the bulk-discount impact record for an RDF tool.",
+      "expected_output": "Uses the link names of the record: affects, related_test, derived_from, with the OSLC CM and PROV-O terms from the skill's mapping table. Exports confirmed links only.",
+      "assertions": [
+        "Uses the link names affects, related_test and derived_from",
+        "Exports no candidate whose status is proposed or rejected"
+      ],
+      "files": [
+        "skills/change-impact/SKILL.md"
+      ]
+    }
+  ]
+}

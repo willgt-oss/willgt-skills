@@ -1,0 +1,273 @@
+{
+  "skill_name": "spec-package",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Handoff engineering to build the products-home screen.",
+      "expected_output": "Checks .willgt/skills.yaml for spec_root and test_runner. Because they exist, writes a brief that carries only the package root, the screen_id, and the AC runner command. Does NOT restate acceptance criteria in the brief body, does NOT paste a Figma URL, and does NOT point at preview.html. Confirms a failing AC is already committed before briefing an implementer.",
+      "assertions": [
+        "Reads .willgt/skills.yaml to resolve the package root instead of hardcoding a path",
+        "Handoff contains the screen_id",
+        "Handoff contains the package root path",
+        "Does NOT include acceptance criteria prose in the brief body",
+        "Does NOT reference preview.html as the implementation target",
+        "Does NOT reference a Figma URL as the implementation target",
+        "Verifies a failing AC file exists before briefing the implementer"
+      ],
+      "files": [
+        "skills/spec-package/IMPLEMENTATION.md",
+        "skills/spec-package/SKILL.md"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "implementer says products-home is done and all tests pass. Close it out.",
+      "expected_output": "Does not accept the claim. Runs or reads the actual AC runner output rather than trusting the report. Diffs the acceptance file against its RED commit to confirm no assertion was altered to force a pass. Only then treats it as done.",
+      "assertions": [
+        "Runs the AC runner or reads its real output file rather than accepting the claim",
+        "Diffs the acceptance file against its RED commit",
+        "Flags any changed assertion as a finding rather than a detail",
+        "Does NOT mark the work done on the basis of the report alone",
+        "States which layer was proven rather than implying full coverage"
+      ],
+      "files": [
+        "skills/spec-package/IMPLEMENTATION.md"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We need a checkout screen. Who do I need to brief?",
+      "expected_output": "Derives the readiness row by inspecting package files on disk — products.yaml for the Offer, screen.yaml, ac.feature, the executable AC — and reports which cells are empty. Names only the owners of empty cells. Does not brief roles whose work already exists on disk, and does not consult a stored board or status file.",
+      "assertions": [
+        "Inspects package files on disk to determine each cell",
+        "Reports which specific cells are empty",
+        "Names only the owners of empty cells",
+        "Does NOT brief roles whose artifacts already exist",
+        "Does NOT rely on a stored board, checklist or status file as the source of truth",
+        "Does NOT claim a ready or impact CLI exists"
+      ],
+      "files": [
+        "skills/spec-package/IMPLEMENTATION.md"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "The AC says the default category is Playgrounds, but the age-range table says both listings show by default. Those conflict. Just pick whichever is easier to implement.",
+      "expected_output": "Refuses to resolve it silently. Identifies that two committed contracts cannot both hold, and that choosing changes what the product means. Stops and escalates to the spec owner, and records the resulting ruling in the package rather than in chat.",
+      "assertions": [
+        "Identifies the conflict as two committed contracts that cannot both hold",
+        "Stops rather than picking the easier option",
+        "Escalates to the spec owner",
+        "States that the ruling is recorded in the package, not in chat",
+        "Does NOT silently choose an interpretation and continue implementing"
+      ],
+      "files": [
+        "skills/spec-package/IMPLEMENTATION.md"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Adopt the spec package for this project. Write packages for all 14 existing screens so we have full coverage.",
+      "expected_output": "Binds the package root and AC runner in .willgt/skills.yaml (spec_root, test_runner) and seeds products.yaml from what the project actually grants today. Declines to backfill packages for screens nobody is changing, explaining that backfilled specs describe assumptions that were never verified. Notes adoption is complete when one feature has gone end to end, not when folders exist.",
+      "assertions": [
+        "Binds spec_root and test_runner in .willgt/skills.yaml",
+        "Seeds products.yaml from what the project currently grants rather than aspirations",
+        "Declines to backfill packages for untouched screens",
+        "Gives the reason that backfilled specs record unverified assumptions",
+        "States adoption is proven by one end-to-end feature, not by folder creation"
+      ],
+      "files": [
+        "skills/spec-package/IMPLEMENTATION.md"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Add mod.partner to the Pro offer's grants so we can start selling the partner portal next week.",
+      "expected_output": "Checks whether mod.partner exists in the runtime catalog. Because it does not, refuses to add it to products.yaml as a commercial claim about a capability that does not exist, and explains that runtime is the source of truth for grants. Offers the correct order: define the runtime capability first, then the commercial claim.",
+      "assertions": [
+        "Checks the runtime catalog for the grant key before writing it",
+        "Refuses to add a grant that does not exist in the runtime catalog",
+        "States that runtime grant truth leads and products.yaml follows",
+        "Proposes defining the runtime capability first",
+        "Does NOT write the aspirational grant into products.yaml"
+      ],
+      "files": [
+        "skills/spec-package/FORMAT.md"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Design finished the mockup in Figma and it looks great. Handoff engineering off the Figma link.",
+      "expected_output": "Refuses to start work from Figma. Explains that Figma is export-only and must be written into screen.yaml and tokens before anyone starts, and that if the export-to-git step is skipped the correct action is to stop. Asks for the export to land first.",
+      "assertions": [
+        "Refuses to hand off an implementer from a Figma URL",
+        "States that Figma is export-only into package files",
+        "Requires screen.yaml to exist before briefing",
+        "Stops rather than proceeding with the link",
+        "Does NOT treat a visual preview as the implementation contract"
+      ],
+      "files": [
+        "skills/spec-package/SKILL.md",
+        "skills/spec-package/FORMAT.md"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "The board says products-home design is done but I can't find screen.yaml anywhere.",
+      "expected_output": "Treats the files as authoritative and the board as wrong. Reports the Design cell as empty because screen.yaml does not exist, and re-derives status from the package rather than reconciling the board by hand. Does not trust the stored status.",
+      "assertions": [
+        "Treats the absence of screen.yaml as meaning the Design cell is empty",
+        "States that the files win over the stored status",
+        "Re-derives status from package files",
+        "Does NOT reconcile or trust the board as a second source of truth"
+      ],
+      "files": [
+        "skills/spec-package/SKILL.md",
+        "skills/spec-package/IMPLEMENTATION.md"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "The gap check for the nightly-billing-sync feature says Marketing and Design are missing. Handoff Marketing and Design.",
+      "expected_output": "Checks the feature's declared type first. A billing sync is a backend feature, for which Marketing and Design are not applicable rather than missing. Reports those cells as n/a, briefs neither role, and flags that the gap check was run without a type or with the wrong type declared.",
+      "assertions": [
+        "Checks the feature's declared type before briefing anyone",
+        "Identifies Marketing and Design as not applicable for a backend feature",
+        "Reports the cells as n/a rather than as gaps",
+        "Does NOT brief Marketing",
+        "Does NOT brief Design",
+        "Flags the missing or incorrect type declaration as the underlying problem"
+      ],
+      "files": [
+        "skills/spec-package/TYPES.md",
+        "skills/spec-package/IMPLEMENTATION.md"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "products.yaml is empty for this project. That's a gap — get Product to fill it in.",
+      "expected_output": "Distinguishes not-applicable from missing. Checks the types of the features in play: if none are sellable_module, an empty products.yaml is correct and no gap exists. Only treats it as a gap when a sellable feature actually requires an Offer.",
+      "assertions": [
+        "Checks whether any feature in play is of type sellable_module",
+        "States that an empty products: [] is valid when nothing is sold",
+        "Does NOT brief Product to invent Offers for a project that sells nothing",
+        "Treats not-applicable and missing as different states"
+      ],
+      "files": [
+        "skills/spec-package/TYPES.md",
+        "skills/spec-package/templates/products.yaml"
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Set up the AC runner for the new mobile project — just use Playwright like the other one.",
+      "expected_output": "Resolves the runner from the registry rather than copying another project's binding. Identifies Playwright as the web binding and unsuitable for a mobile surface, names the registry alternatives and their status, and binds test_runner in .willgt/skills.yaml. Notes that any candidate must satisfy the four runner requirements on real work before being registered.",
+      "assertions": [
+        "Consults the runner registry instead of assuming Playwright",
+        "Identifies Playwright as unsuitable for the mobile surface",
+        "Binds test_runner in .willgt/skills.yaml",
+        "States that an unverified runner must meet the four requirements on real work first",
+        "Does NOT copy another project's runner binding unexamined"
+      ],
+      "files": [
+        "skills/spec-package/RUNNERS.md"
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "implementer reports 17/17 unit tests green on the age filter. Mark the feature done.",
+      "expected_output": "Accepts that the unit layer is proven and refuses to extend that to the feature working. States that unit-level green does not prove the screen renders, the control is reachable, or a user can operate it. Names the layer proven and the gap, and asks for evidence at the layer the AC actually describes before closing.",
+      "assertions": [
+        "States which layer the passing tests actually proved",
+        "Refuses to treat unit-level green as proof the feature works",
+        "Names the untested layer explicitly",
+        "Requests evidence at the layer the AC describes before closing",
+        "Does NOT mark the feature done on the unit result alone"
+      ],
+      "files": [
+        "skills/spec-package/RUNNERS.md",
+        "skills/spec-package/IMPLEMENTATION.md"
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "We're adding an AI assistant to the dashboard. Write the ac.feature with exact expected responses so we can assert on them.",
+      "expected_output": "Identifies this as an agentic feature, where the acceptance model does not transfer: output is non-deterministic, so asserting exact responses either fails constantly or gets loosened until it asserts nothing. Proposes evals scored across runs instead, notes the likely additional artifacts, and states that the agentic type is unsettled and should not be finalised from a guess.",
+      "assertions": [
+        "Identifies the feature as the agentic type",
+        "Explains that deterministic exact-output assertions do not work for non-deterministic output",
+        "Proposes evals in place of or alongside executable AC",
+        "States that the agentic type is an open problem not yet settled by real work",
+        "Does NOT write an ac.feature asserting exact model output"
+      ],
+      "files": [
+        "skills/spec-package/TYPES.md"
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Design has written screens/cart/screen.yaml from the ticket. Handoff implementer to build it.",
+      "expected_output": "Refuses to hand off implementer. Identifies that step 3 requires a design brief taken to a human running /design or /design-sync, and that screen.yaml authored before that human step is draft only, not signed implementer input. Notes the agent cannot run those commands itself and that a human must. Asks for the design brief and the human design result before any brief goes out.",
+      "assertions": [
+        "Refuses to hand off implementer from a screen.yaml written before the human design step",
+        "States that pre-human yaml is draft/reference only, not signed Eng input",
+        "States that the agent cannot run /design or /design-sync and a human must",
+        "Asks for the design brief and the human design result first",
+        "Does NOT treat an agent-authored screen.yaml as the implementation contract"
+      ],
+      "files": [
+        "skills/spec-package/IMPLEMENTATION.md",
+        "skills/spec-package/FORMAT.md"
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "Check the spec-package v2 templates. Ship them even if a requirement has no AC id, the design brief has no constraints, or a flow edge omits its effect.",
+      "expected_output": "Runs evals/check-templates.py. That check fails when PRD.md has a requirement id that is not linked to an AC id, when DESIGN_BRIEF.md is missing Experience or Constraints or does not say it is Design only and never an implementer target, or when flow.yaml lacks screen_id nodes or an edge with trigger, guard, and effect including no write. Does not waive the missing field.",
+      "assertions": [
+        "Runs evals/check-templates.py rather than accepting the templates by inspection",
+        "Fails when a PRD requirement id is not linked to an AC id",
+        "Fails when DESIGN_BRIEF.md is missing Experience or Constraints",
+        "Fails when DESIGN_BRIEF.md does not say it is Design only and never an implementer target",
+        "Fails when a flow node is missing screen_id",
+        "Fails when a flow edge is missing trigger, guard, or effect",
+        "Fails when no flow edge has effect no write",
+        "Does NOT treat a missing field as optional"
+      ],
+      "files": [
+        "skills/spec-package/templates/PRD.md",
+        "skills/spec-package/templates/DESIGN_BRIEF.md",
+        "skills/spec-package/templates/flow.yaml",
+        "skills/spec-package/evals/check-templates.py",
+        "skills/spec-package/FORMAT.md"
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "reviewer a backend package whose only AC for the invite-refusal rule greps the source for the refusal message. Approve it; the AC is green.",
+      "expected_output": "Applies the step 9 mutation gate in IMPLEMENTATION.md: the grep probe is `static` and cannot be the only AC for a runtime rule, so reviewer asks for AC that call the API and assert response and persisted state, plus a mutation table showing each deny AC goes red when the guard is removed in a scratch copy. Does not approve.",
+      "assertions": [
+        "Refuses to approve on a source-grepping AC alone",
+        "Requires AC that call the running API or service and assert response and persisted state",
+        "Requires a mutation table in the evidence folder",
+        "Does NOT commit the scratch mutation"
+      ],
+      "files": [
+        "skills/spec-package/IMPLEMENTATION.md"
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "Two parallel packages each add the next Flyway migration, V12. Which numbering does the format use?",
+      "expected_output": "FORMAT.md shared registry files: new migrations use timestamp versions V<YYYYMMDDHHMM>__name.sql so parallel packages cannot collide; existing V<n> files keep their names; until a project switches, the merge collision check applies.",
+      "assertions": [
+        "Names the V<YYYYMMDDHHMM> timestamp scheme",
+        "Does NOT rename existing migrations",
+        "Mentions the merge script collision check for projects not yet switched"
+      ],
+      "files": [
+        "skills/spec-package/FORMAT.md"
+      ]
+    }
+  ]
+}

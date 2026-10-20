@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "example-event.schema.json",
+  "title": "ExampleEvent",
+  "description": "One event. implementer owns writes. Names the event and its required fields. Not a second copy of the PRD.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id"],
+  "properties": {
+    "event_id": { "type": "string" }
+  }
+}

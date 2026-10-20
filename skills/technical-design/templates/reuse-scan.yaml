@@ -1,0 +1,37 @@
+# Reuse scan for one feature (technical-design, design_depth: full).
+# Path: .willgt/decisions/<feature_id>.reuse.yaml
+# Written before the TRD designs anything to build. Link from TRD ## Reuse.
+# Nothing here installs anything. adopt or wrap = stop and ask the human (see SKILL.md New technology).
+feature_id: <feature_id>
+date: <YYYY-MM-DD>
+by: implementer                      # or product, at intake
+capabilities:
+  - id: <kebab-id>                   # e.g. secret-storage, paas-api-client
+    need: >-                         # what the feature must do, 1-2 sentences, from the PRD/ac.feature
+      <need>
+    ac_ids: [<AC-...>]               # acceptance ids this capability serves
+    found:                           # check in this order: internal, then oss, then service
+      internal:                      # the product's own modules (catalog, repo grep)
+        - name: <module or product>
+          where: <repo path or registry id>
+          fit: full | partial | none
+          gap: <what it does not cover> | none
+      oss:                           # self-hostable open source
+        - name: <project>
+          url: <repo url>
+          license: <SPDX id>         # flag AGPL and source-available as risk
+          license_risk: none | copyleft | source-available | unknown
+          latest_release: <version, YYYY-MM-DD> | unverified
+          activity: active | slow | stale | unverified
+          docker: image | paas-template | no
+          fit: full | partial | none
+          gap: <gap> | none
+      service:                       # hosted
+        - name: <service>
+          vendor: <vendor>
+          fit: full | partial | none
+          gap: <gap> | none
+    recommendation: reuse-internal | adopt | wrap | build
+    why: >-                          # one short reason; build requires why no option fits
+      <why>
+    product_opportunity: yes | no | unclear   # if we build it, could it become a reusable module?

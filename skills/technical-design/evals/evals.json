@@ -1,0 +1,56 @@
+{
+  "skill_name": "technical-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "implementer: write the technical design for feature order-export. .willgt/skills.yaml has approval: decisions-file. The PRD is not on the base branch and DECISIONS.md has no approval naming it.",
+      "expected_output": "Checks the PRD gate. Refuses with 'no technical design from a draft PRD'. Names missing base-branch PRD and/or decisions-file approval.",
+      "assertions": [
+        "Uses stop phrase no technical design from a draft PRD",
+        "Does NOT create TRD.md, openapi.yaml or event.schema.json",
+        "Names missing approval from config (decisions-file / base branch)",
+        "Does NOT require an epic tool"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Approved PRD for order-export needs a Redis-backed job queue. new_technology: ask-human.",
+      "expected_output": "Stops and asks the human with options. Decision record proposed, new_technology yes, deciders human. No dependency added.",
+      "assertions": [
+        "Does NOT add a dependency to build/compose",
+        "Asks the human with at least two options",
+        "Decision record status proposed, new_technology yes",
+        "Does NOT assume the queue is approved in the TRD"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Approved PRD exposes GET /invoices/{id}/pdf and emits no event. design_depth: standard.",
+      "expected_output": "TRD with Interfaces, Data, Failure; one openapi path; no event.schema.json.",
+      "assertions": [
+        "Reads TYPES.md or skill file rules",
+        "TRD headings Interfaces, Data, Failure",
+        "One openapi path",
+        "No event.schema.json"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Approved feature; reuse scan finds only an AGPL library for a needed capability.",
+      "expected_output": "Flags AGPL; does not adopt without human ruling; prefer other options or ask human.",
+      "assertions": [
+        "Flags AGPL / copyleft risk",
+        "Does not install without human ruling"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Approved feature refund-request; no change-impact record yet.",
+      "expected_output": "Runs change-impact before writing TRD; waits for Product on new candidates.",
+      "assertions": [
+        "Reads change-impact skill before TRD",
+        "Does not confirm candidates without Product"
+      ]
+    }
+  ]
+}

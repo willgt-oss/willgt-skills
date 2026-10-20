@@ -1,0 +1,25 @@
+# One path fragment. Not the bundled spec/api/openapi.yaml.
+# implementer owns writes. The platform bundle is generated and is never hand-edited.
+openapi: 3.0.3
+info:
+  title: <capability>
+  version: 0.0.0-template
+paths:
+  /example:
+    get:
+      operationId: readExample
+      summary: <what this one path does>
+      responses:
+        "200":
+          description: <what the caller receives>
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                properties:
+                  id:
+                    type: string
+        "404":
+          description: <the failure the caller can observe>

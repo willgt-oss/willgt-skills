@@ -1,0 +1,28 @@
+# Impact record for one feature. Path: .willgt/impact/<feature_id>.impact.yaml
+# Candidates are append-only. A candidate's status changes only on a Product answer.
+feature_id: <feature_id>
+work_item: <work item ref from .willgt/skills.yaml> | none
+created: <YYYY-MM-DD HH:MM>
+runs:
+  - run_id: R<n>
+    level: intake | technical-design
+    by: product | engineering
+    at: <YYYY-MM-DD HH:MM>
+    searched: [<paths or globs searched>]
+candidates:
+  - candidate_id: C<n>
+    run_id: R<n>
+    source: spec-search | code-map
+    kind: requirement | screen | flow | api_path | event | acceptance
+    target_id: <REQ id | screen_id | flow edge from->to | METHOD /path | event name | AC id>
+    link: affects | derived_from | related_test   # affects = touches; derived_from = depends_on; related_test = protected_ac
+    evidence: <file path:line> | <test name -> code path>
+    question: <question asked to Product; ends with "?">
+    status: proposed | confirmed | rejected
+    decided_by: product | none
+    decided_at: <YYYY-MM-DD HH:MM> | none
+# Derived from confirmed candidates only. Regenerate; never hand-add an id here.
+confirmed:
+  touches: []        # link affects
+  depends_on: []     # link derived_from
+  protected_ac: []   # link related_test; copied to each ticket's protected_ac frontmatter

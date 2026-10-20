@@ -1,0 +1,13 @@
+# Optional project-level reuse registry (not required for v0.1).
+# Path: .willgt/reuse-registry.yaml (project chooses).
+# Rows come from feature reuse scans (`.willgt/decisions/<feature_id>.reuse.yaml`).
+# status approved only after the human ruled (new_technology ask-human or allowed-list).
+entries:
+  - id: <kebab-id>
+    name: <module or dependency name>
+    kind: internal | oss | service
+    where: <path, repo URL, or vendor>
+    license: <SPDX> | n/a
+    status: candidate | approved | rejected
+    used_by: [<feature_id>]
+    ruling_ref: <DECISIONS.md line> | none

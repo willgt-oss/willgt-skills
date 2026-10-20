@@ -1,0 +1,29 @@
+# catalog/products.yaml — TEMPLATE
+#
+# Owner of writes: Product.
+# Required for:    sellable_module
+# Not applicable:  backend · dashboard_screen · landing_page  (see TYPES.md)
+#
+# Commercial meaning only: what is sold, how it is delivered, what it entitles.
+# NOT layout, NOT copy, NOT the list of every capability the product has.
+#
+# ACCEPTABLE
+#   - `products: []` when this project sells nothing yet. Honest and valid.
+#   - An Offer whose grants[] all exist in the runtime catalog today.
+#
+# NOT ACCEPTABLE
+#   - A grant key the runtime does not have. Commerce follows runtime, never leads it:
+#     define the capability first, then sell it.
+#   - Layout, component or copy fields. Those belong in screen.yaml.
+#   - An Offer for something not decided yet. Aspirations are not catalog rows.
+#   - Deleting this file to "mark it n/a" — absent and not-applicable are different states.
+
+products:
+  - id: <product-id>                  # stable, lowercase, hyphenated
+    name: <Display Name>
+    offers:
+      - id: <offer-id>                # e.g. pro-monthly
+        price_id: <billing provider price id>   # omit entirely if not yet created
+        delivery_mode: ai             # ai | specialist | hybrid
+        grants:
+          - <grant.key>               # MUST already exist in the runtime catalog

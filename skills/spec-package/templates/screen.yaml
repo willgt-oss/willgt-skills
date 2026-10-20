@@ -1,0 +1,46 @@
+# screens/<screen_id>/screen.yaml — TEMPLATE
+#
+# Owner of writes: Design.
+# Required for:    fullstack · dashboard_screen · landing_page · sellable_module
+# Not applicable:  backend  (no UI surface — see TYPES.md)
+#
+# The UI contract an implementer reads. This is the target of a brief — never a
+# Figma URL, never preview.html.
+#
+# ACCEPTABLE
+#   - Region and action ids that AC can reference by name.
+#   - Components that exist in design/components/. Reuse over invention.
+#   - A region bound to data by path, so the source is unambiguous.
+#
+# NOT ACCEPTABLE
+#   - A component variant not declared in its component contract. Contracts are closed:
+#     add the variant there first, or use an existing one.
+#   - Pixel values, hex colours or font stacks inline. Those are tokens.
+#   - Renaming a region or action id casually — AC references these ids, so a rename
+#     breaks its test. That coupling is intended. Rename deliberately, update the AC.
+#   - Commerce fields (price, grants). Those belong in products.yaml.
+
+screen_id: <screen-id>                # stable; this is what briefs cite
+type: dashboard_screen                # see TYPES.md
+route: /<path>
+personas:
+  - <persona-id>                      # who reaches this screen
+
+regions:
+  - id: <region_id>                   # referenced by AC
+    component: <ComponentName>        # must exist in design/components/
+    repeats: <file>#<path>            # optional, for lists — names the data source
+    empty_state: <copy or component>  # what shows when there is nothing
+
+actions:
+  - id: <action_id>                   # referenced by AC
+    label: <Visible label>
+    triggers: navigate(screen: <other-screen-id>)
+    # or: write(<what it changes>) — a write action needs confirmation in the AC
+
+# States the implementer must handle. Omitting one means "does not occur" — say so
+# deliberately rather than leaving it out by accident.
+states:
+  loading: <what shows>
+  error: <what shows, and what the user can do about it>
+  empty: <what shows>

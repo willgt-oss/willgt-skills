@@ -1,0 +1,14 @@
+{
+  "name": "willgt-skills",
+  "description": "Public WillGT skills marketplace: change-impact, technical-design, and spec-package. Created by WillGT.",
+  "owner": {
+    "name": "WillGT"
+  },
+  "plugins": [
+    {
+      "name": "willgt-skills",
+      "source": "./",
+      "description": "change-impact, technical-design, and spec-package — Created by WillGT"
+    }
+  ]
+}
