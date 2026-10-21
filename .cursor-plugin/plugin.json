@@ -1,0 +1,12 @@
+{
+  "name": "willgt-skills",
+  "displayName": "Spec & Impact",
+  "version": "0.1.3",
+  "description": "Spec & Impact by WillGT: give AI agents a spec they can prove they built. Define the feature, see what it touches, design the build. Three skills: spec-package, change-impact, technical-design.",
+  "author": {
+    "name": "WillGT"
+  },
+  "license": "Apache-2.0",
+  "keywords": ["skills", "spec", "specification", "change-impact", "technical-design", "acceptance-tests", "gherkin"],
+  "logo": ".claude-plugin/icon.png"
+}
