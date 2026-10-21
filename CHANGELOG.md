@@ -2,6 +2,7 @@
 
 ## [0.1.2] — 2026-10-20
 - Directory display name: **Spec & Impact** (plugin id stays `willgt-skills`).
+- Added `PRIVACY.md`.
 
 ## [0.1.1] — 2026-10-20
 - Plugin icon added.

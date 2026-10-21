@@ -191,6 +191,10 @@ Contributing: see `CONTRIBUTING.md`. Contributions are made under the terms in `
 
 Report vulnerabilities privately with GitHub private vulnerability reporting: Security, then Report a vulnerability. Do not open public issues for security problems. See `SECURITY.md`.
 
+## Privacy
+
+Spec & Impact collects, sends and stores nothing outside your project. See [`PRIVACY.md`](PRIVACY.md).
+
 ## License and trademark
 
 Licensed under the Apache License 2.0. See `LICENSE` and `NOTICE`.
