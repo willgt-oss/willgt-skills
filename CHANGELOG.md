@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [0.1.2] — 2026-10-20
+- Directory display name: **Spec & Impact** (plugin id stays `willgt-skills`).
+
 ## [0.1.1] — 2026-10-20
 - Plugin icon added.
 - Skills no longer pre-approve tools (`allowed-tools` removed); Claude asks before shell commands and file writes as usual.

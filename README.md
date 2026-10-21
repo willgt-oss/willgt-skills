@@ -1,4 +1,6 @@
-# WillGT Skills
+# Spec & Impact
+
+*by WillGT · plugin id `willgt-skills`*
 
 Three Claude Code skills that turn a vague feature idea into a spec an AI agent can build against, show what the change touches, and design the build.
 

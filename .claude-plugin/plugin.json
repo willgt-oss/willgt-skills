@@ -1,14 +1,14 @@
 {
   "name": "willgt-skills",
-  "displayName": "WillGT Skills",
-  "description": "Open skills for change impact, technical design, and executable specification packages. Created by WillGT.",
+  "displayName": "Spec & Impact",
+  "description": "Spec & Impact by WillGT: give AI agents a spec they can prove they built. Define the feature, see what it touches, design the build. Three skills: spec-package, change-impact, technical-design.",
   "author": {
     "name": "WillGT"
   },
   "homepage": "https://github.com/willgt-oss/willgt-skills",
   "repository": "https://github.com/willgt-oss/willgt-skills",
   "license": "Apache-2.0",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "keywords": [
     "skills",
     "spec",
