@@ -8,6 +8,12 @@
   "homepage": "https://github.com/willgt-oss/willgt-skills",
   "repository": "https://github.com/willgt-oss/willgt-skills",
   "license": "Apache-2.0",
-  "version": "0.1.0",
-  "keywords": ["skills", "spec", "design", "impact", "willgt"]
+  "version": "0.1.1",
+  "keywords": [
+    "skills",
+    "spec",
+    "design",
+    "impact",
+    "willgt"
+  ]
 }
