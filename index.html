@@ -127,6 +127,13 @@ footer{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;fo
 .trio code{font-family:var(--f-mono);font-size:14px;color:var(--teal);background:var(--teal-soft);padding:2px 8px;border-radius:4px;justify-self:start}
 .limits{border:1px dashed var(--rule);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
 .limits ul{margin:0;padding-left:18px;font-size:15.5px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.tree{font-size:13.5px;line-height:1.7}
+.tree .c{color:var(--muted)}.tree .d{color:var(--teal)}.tree .k{color:var(--magenta)}
+.whys{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:720px){.whys{grid-template-columns:1fr}}
+.whys li{border:1px solid var(--rule);border-radius:10px;padding:14px 16px;background:var(--paper);display:flex;flex-direction:column;gap:6px;min-width:0}
+.whys b{font-family:var(--f-display);font-size:17px}
+.whys span{font-size:15px;color:var(--muted)}
 /* impact ripple */
 .ripple{position:relative;width:100%;max-width:520px;aspect-ratio:1/1;margin:8px auto;}
 .ripple .ring{position:absolute;inset:50%;width:0;height:0;border-radius:50%;border:2px solid var(--teal);transform:translate(-50%,-50%);opacity:.35}
@@ -287,6 +294,28 @@ claude plugin install willgt-skills@willgt-skills</pre>
     <p class="pull">Tests say what the system promises.<br>Code says how it does it today.<small>Another friend spends his days arguing with people who want to exclude code from coverage. Same problem, other side.</small></p>
     <div class="beat"><p>So the skills work in four steps:</p>
       <ol class="steps"><li>Define the feature as files with acceptance tests</li><li>Find what it touches and confirm each link</li><li>Design the build</li><li>Implement until the tests pass</li></ol></div>
+    <div class="beat"><p>For the 2FA feature, the files come out of templates like this:</p></div>
+<pre class="tree"><span class="d">spec/two-factor-auth/</span>
+  PRD.md            <span class="c"># requirements with ids; each one lists its AC ids</span>
+  ac.feature        <span class="c"># acceptance tests in Gherkin, committed failing</span>
+  flow.yaml         <span class="c"># screens it crosses; every edge has trigger, guard, effect</span>
+  DESIGN_BRIEF.md   <span class="c"># experience + constraints, for the human design pass</span>
+  TRD.md            <span class="c"># interfaces, data, failure behavior</span>
+  openapi.yaml      <span class="c"># one API path fragment, only if there is an endpoint</span>
+  event.schema.json <span class="c"># one event, only if the feature emits one</span>
+<span class="d">spec/screens/sign-in/</span>
+  screen.yaml       <span class="c"># the screen contract, catalog components only</span>
+<span class="d">.willgt/impact/</span>
+  two-factor-auth.impact.yaml   <span class="c"># what it touches: <span class="k">affects</span>, related tests, each confirmed</span>
+<span class="d">.willgt/decisions/</span>
+  two-factor-auth.decisions.yaml <span class="c"># decision records (depth: full)</span></pre>
+    <div class="beat"><p>Why templates, and not "AI, write me a spec"?</p></div>
+    <ul class="whys">
+      <li><b>The next agent can find it</b><span>Same shape and the same ids every time. Change impact searches requirement ids, flow edges and AC ids. A free-form doc has nothing stable to match.</span></li>
+      <li><b>Everything is linked</b><span>A requirement must name its acceptance tests. A script fails the template if one is missing. Free text can claim coverage it doesn't have.</span></li>
+      <li><b>The hard questions are required</b><span>Every flow edge needs a trigger, a guard and an effect, even "no write". The design brief must have constraints. These are exactly what AI skips when it writes freely.</span></li>
+      <li><b>AI fills it in, you review a diff</b><span>The AI writes into a fixed structure instead of inventing one. You check small files against the template, and the next sprint doesn't reinvent the tables.</span></li>
+    </ul>
     <div class="proof"><b>31 / 32</b> eval cases pass with the skills · <b>0</b> without</div>
     <p>It does not write your test code. It defines the acceptance tests in Gherkin and keeps them honest; making them run and pass is the build step.</p>
     <p class="hook">If you have watched an agent confidently break something it never looked at, ask it what breaks first.</p>
