@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>WillGT Skills</title>
+<title>Spec &amp; Impact</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Open-source Claude Code skills by WillGT: executable spec packages, change impact and technical design. Apache-2.0.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -217,12 +217,12 @@ footer{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;fo
 
 <div class="wrap">
   <nav>
-    <a class="brand" href="https://github.com/willgt-oss" target="_blank" rel="noopener">Will<b>GT</b> <span class="label" style="margin-left:6px">open source</span></a>
-    <div class="navlinks"><a href="#how">How it works</a><a href="#skills">Skills</a><a href="#evals">Evals</a><a href="#verify">Verify</a><a href="#what-breaks">Story</a><a href="#launch">Launch post</a><a href="https://github.com/willgt-oss/willgt-skills" target="_blank" rel="noopener">GitHub</a></div>
+    <a class="brand" href="https://github.com/willgt-oss" target="_blank" rel="noopener">Spec &amp; Impact <span class="label" style="margin-left:6px">by Will<b>GT</b></span></a>
+    <div class="navlinks"><a href="#how">How it works</a><a href="#skills">Skills</a><a href="#evals">Evals</a><a href="#cursor">Cursor</a><a href="#verify">Verify</a><a href="#what-breaks">Story</a><a href="#launch">Launch post</a><a href="https://github.com/willgt-oss/willgt-skills" target="_blank" rel="noopener">GitHub</a></div>
   </nav>
 
   <header class="hero">
-    <span class="label">WillGT Skills · v0.1.0 · Apache-2.0</span>
+    <span class="label">Spec &amp; Impact · by WillGT · v0.1.3 · Apache-2.0</span>
     <h1>Give AI agents a spec they can <em>prove</em> they built.</h1>
     <p class="lede">Three Claude Code skills: define a feature as files in your repo, see what it touches before anyone builds, and design the build at the depth you choose. Done is test output, not a claim.</p>
     <div class="install">
@@ -313,19 +313,34 @@ claude plugin install willgt-skills@willgt-skills</pre>
     <p class="note">Run with <span class="mono">claude plugin eval</span> and its no-skill baseline arm. Every grader fails an answer that only says the skill could not be loaded. Cases live in the repo's <span class="mono">evals/</span> folder, so you can run them yourself.</p>
   </section>
 
+  <section id="cursor" aria-labelledby="h-cursor">
+    <span class="label">Also works in Cursor · tested October 20, 2026</span>
+    <h2 id="h-cursor">Same skills, another agent.</h2>
+    <p>The skills use the open Agent Skills format, so Cursor loads them from your project. Copy <span class="mono">skills/*</span> into <span class="mono">.cursor/skills/</span>.</p>
+<pre>mkdir -p .cursor/skills
+cp -R willgt-skills/skills/* .cursor/skills/</pre>
+    <div class="record"><div class="tablewrap"><table>
+      <tr><th>Picks change-impact on its own</th><td><span class="check">✓ pass</span> · "add 2FA, what does it touch?" → 8 links with file:line evidence, each asked as a question</td></tr>
+      <tr><th>Refuses a "done" claim</th><td><span class="check">✓ pass</span> · no runner output and no RED baseline → stays open, "layer proven: none"</td></tr>
+      <tr><th>Approval gate</th><td><span class="check">✓ pass</span> · no PRD on the base branch → no design</td></tr>
+      <tr><th>First-run setup</th><td><span class="check">✓ pass</span> · six questions, one at a time</td></tr>
+    </table></div></div>
+    <p class="note">Cursor Agent CLI with its default model, in a sample repo with login and password-reset specs. Use Agent mode so the skills can write their files.</p>
+  </section>
+
   <section id="verify" aria-labelledby="h-verify">
     <span class="label">Verification record</span>
     <h2 id="h-verify">How to know you have the real one.</h2>
     <div class="record"><div class="tablewrap"><table>
       <tr><th>Publisher</th><td><a href="https://github.com/willgt-oss" target="_blank" rel="noopener">github.com/willgt-oss</a> (display name WillGT)</td></tr>
       <tr><th>Repository</th><td><a href="https://github.com/willgt-oss/willgt-skills" target="_blank" rel="noopener">willgt-oss/willgt-skills</a></td></tr>
-      <tr><th>Release</th><td><a href="https://github.com/willgt-oss/willgt-skills/releases/tag/v0.1.0" target="_blank" rel="noopener">v0.1.0</a> · commit 00b210a · author WillGT</td></tr>
-      <tr><th>Plugin name</th><td>willgt-skills@willgt-skills</td></tr>
+      <tr><th>Release</th><td><a href="https://github.com/willgt-oss/willgt-skills/releases" target="_blank" rel="noopener">v0.1.3</a> (first release <a href="https://github.com/willgt-oss/willgt-skills/releases/tag/v0.1.0" target="_blank" rel="noopener">v0.1.0</a>) · commit ae35577 · author WillGT</td></tr>
+      <tr><th>Plugin</th><td>Spec &amp; Impact · id willgt-skills@willgt-skills</td></tr>
       <tr><th>License</th><td>Apache-2.0 · NOTICE reads "Created by WillGT"</td></tr>
       <tr><th>Checks before release</th><td><span class="check">✓</span> plugin validate --strict · <span class="check">✓</span> Agent Skills validator · <span class="check">✓</span> Anthropic skill checklist · <span class="check">✓</span> secret and private-term scan · <span class="check">✓</span> baseline evals</td></tr>
       <tr><th>What it runs</th><td>Markdown instructions and templates. No network calls, no installs.</td></tr>
     </table></div></div>
-    <p class="note">Forks are welcome under Apache-2.0. A fork keeps LICENSE and NOTICE, marks changed files and uses its own name; "WillGT" may describe it ("based on WillGT Skills") but not name it. Security issues go through GitHub private vulnerability reporting on the repository.</p>
+    <p class="note">Forks are welcome under Apache-2.0. A fork keeps LICENSE and NOTICE, marks changed files and uses its own name; "WillGT" may describe it ("based on Spec &amp; Impact by WillGT") but not name it. Security issues go through GitHub private vulnerability reporting on the repository.</p>
   </section>
 
   <article id="what-breaks" class="story" aria-labelledby="h-story">
@@ -342,7 +357,7 @@ claude plugin install willgt-skills@willgt-skills</pre>
           <li class="bad"><span class="dot">✗</span><span class="name">Breaks</span><code>login, emails, tests</code></li>
         </ol>
       </div>
-      <div class="frame with"><span class="label">AI agent with WillGT Skills</span>
+      <div class="frame with"><span class="label">AI agent with Spec &amp; Impact</span>
         <ol>
           <li><span class="dot">→</span><span class="name">Request</span><code>"Add 2FA"</code></li>
           <li class="sk"><span class="dot">1</span><span class="name">Define</span><code>spec-package</code></li>
@@ -399,7 +414,7 @@ claude plugin install willgt-skills@willgt-skills</pre>
       <div class="problem"><b>"Done" is a claim</b><p>The agent builds from a loose description. Nobody wrote down what done means, so done becomes "the tests pass" or "the screen looks fine".</p></div>
       <div class="problem"><b>Nobody checks what it touches</b><p>The login route, an email flow, a test that assumed the old behavior. The change lands, and something else breaks.</p></div>
     </div>
-    <p class="hook">Today I'm releasing WillGT Skills: three open-source skills for Claude Code that fix both.</p>
+    <p class="hook">Today I'm releasing Spec &amp; Impact by WillGT: three open-source skills for Claude Code that fix both.</p>
     <ul class="trio">
       <li><code>spec-package</code><span>Defines the feature as files in your repo: requirements with ids, acceptance tests in Gherkin, flows, screen and API contracts. The tests are committed failing; the agent makes them pass without editing them.</span></li>
       <li><code>change-impact</code><span>Finds the requirements, screens, APIs, events and tests the feature may touch, and asks you about each one. Confirmed tests become protected.</span></li>
