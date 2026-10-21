@@ -46,6 +46,26 @@ Skills live under `skills/<name>/` and follow the [Agent Skills](https://agentsk
 
 You also need a git repo for your project. Acceptance tests run with your own test runner (for example Playwright, Jest, pytest, kotlin-test or Maestro). The skills do not install one.
 
+## Use it in Cursor
+
+The skills follow the open [Agent Skills](https://agentskills.io) format, so Cursor loads them from your project:
+
+```bash
+mkdir -p .cursor/skills
+cp -R path/to/willgt-skills/skills/* .cursor/skills/
+```
+
+Tested on October 20, 2026 with the Cursor Agent CLI and its default model:
+
+| Behavior | Result |
+|---|---|
+| Picks change-impact on its own for "I want to add 2FA, what does it touch?", lists each link with file:line evidence and asks you to confirm each one | pass |
+| Refuses to close a feature on "tests pass" without runner output and a RED baseline | pass |
+| Refuses a technical design when the PRD is not on the base branch and approved | pass |
+| Runs the first-run setup one question at a time | pass |
+
+Use Agent mode so the skills can write `.willgt/skills.yaml` and the impact and decision records; Ask mode only reads.
+
 ## First run
 
 The first time any of the three skills runs in a repo, it asks six setup questions, one at a time. Press Enter to accept the default. It then writes **`.willgt/skills.yaml`** at the repo root. Commit that file so every agent in the repo sees the same answers.
@@ -75,13 +95,13 @@ test_runner: auto
 
 The skills only read a work-item reference from this file. They never call a tracker API.
 
-To change your answers, say **"reconfigure willgt skills"**. The full schema is in `skills/spec-package/SETUP.md`.
+To change your answers, say **"reconfigure spec & impact"**. The full schema is in `skills/spec-package/SETUP.md`.
 
 ## Quick start (5 minutes)
 
 Example feature: password reset. Open Claude Code in your repo and type these prompts, one at a time.
 
-1. `Set up willgt skills.`
+1. `Run the Spec & Impact first-run setup.`
    Answer the six questions (or press Enter six times). A file appears: `.willgt/skills.yaml`.
 
 2. `Use spec-package to define a "password reset" feature: user asks for a reset link by email, opens it, sets a new password. Include the deny paths.`
@@ -178,7 +198,7 @@ Any organization may use or fork this Apache-2.0 tree. When you fork or redistri
 
 - Keep `LICENSE` and `NOTICE`, and the existing copyright headers.
 - Mark each file you changed with a notice that it was changed.
-- Rename the fork. Use "WillGT" only to describe the origin, for example "based on WillGT Skills". Do not use it as your product name.
+- Rename the fork. Use "WillGT" only to describe the origin, for example "based on Spec & Impact by WillGT". Do not use it as your product name.
 - State in your README that the work is based on https://github.com/willgt-oss/willgt-skills under Apache-2.0.
 
 ## Collaborate

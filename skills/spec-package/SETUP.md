@@ -1,8 +1,8 @@
-# SETUP — first-run config for WillGT skills
+# SETUP — first-run config for Spec & Impact
 
 **Requires first:** nothing (this file is the bootstrap). **Used by:** `change-impact`, `technical-design`, `spec-package`.
 
-Before any of the three skills does real work, read **`.willgt/skills.yaml`** at the repository root. If that file is missing, run this setup once, write the file, then continue. Say **"reconfigure willgt skills"** to ask the questions again and overwrite the file.
+Before any of the three skills does real work, read **`.willgt/skills.yaml`** at the repository root. If that file is missing, run this setup once, write the file, then continue. Say **"reconfigure spec & impact"** to ask the questions again and overwrite the file.
 
 Skills only **read** tracker references from this file. They never call a tracker API.
 
@@ -59,7 +59,7 @@ Show the default in parentheses. Accept Enter for the default. Explain each in o
 
 1. Create `.willgt/` if needed.
 2. Write `.willgt/skills.yaml` with `version: 1` and the six answers (plus Q2b / Q3b when applicable).
-3. Tell the user the path and that they can re-run setup with **"reconfigure willgt skills"**.
+3. Tell the user the path and that they can re-run setup with **"reconfigure spec & impact"**.
 4. Resume the original skill request using the new config.
 
 ---

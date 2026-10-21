@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [0.1.3] — 2026-10-20
+- Re-run setup phrase is now "reconfigure spec & impact".
+- README: "Use it in Cursor" with tested results.
+
 ## [0.1.2] — 2026-10-20
 - Directory display name: **Spec & Impact** (plugin id stays `willgt-skills`).
 - Added `PRIVACY.md`.
