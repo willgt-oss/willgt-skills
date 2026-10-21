@@ -2,7 +2,7 @@
 
 Three Claude Code skills that turn a vague feature idea into a spec an AI agent can build against, show what the change touches, and design the build.
 
-**Created by WillGT.** · License: **Apache-2.0** · Version 0.1.0
+**Created by WillGT.** · License: **Apache-2.0** · Version 0.1.0 · Website: https://willgt-oss.github.io/willgt-skills/ (how it works, eval results, verification record, launch post)
 
 | Skill | What it does |
 |-------|--------------|
