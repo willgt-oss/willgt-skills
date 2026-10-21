@@ -134,6 +134,32 @@ footer{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;fo
 .whys li{border:1px solid var(--rule);border-radius:10px;padding:14px 16px;background:var(--paper);display:flex;flex-direction:column;gap:6px;min-width:0}
 .whys b{font-family:var(--f-display);font-size:17px}
 .whys span{font-size:15px;color:var(--muted)}
+/* integration diagram */
+.integ{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.integ-grid{display:grid;grid-template-columns:120px repeat(5,minmax(0,1fr));gap:8px;align-items:stretch}
+.integ .rowh{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center}
+.integ .colh{font-family:var(--f-display);font-weight:700;font-size:15px;padding:2px 2px 4px}
+.integ .colh small{display:block;font-family:var(--f-mono);font-weight:400;font-size:11px;color:var(--muted)}
+.cell{border:1px solid var(--rule);border-radius:8px;padding:8px 10px;font-size:13px;line-height:1.35;background:var(--paper);min-width:0}
+.cell.agent{border-style:dashed}
+.cell.skill{background:var(--teal-soft);border-color:var(--teal);color:var(--ink);font-family:var(--f-mono);font-size:12.5px}
+.cell.skill.none{background:transparent;border-color:var(--rule);color:var(--muted);font-family:var(--f-body)}
+.cell.file{font-family:var(--f-mono);font-size:12px}
+.cell.human{background:var(--magenta-soft);border-color:var(--magenta);font-size:12.5px}
+.cell.human b{color:var(--magenta);font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;display:block}
+.integ .cap{font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){
+  .integ-grid [data-col]{animation:colLit 10s ease-in-out infinite}
+  .integ-grid [data-col="2"]{animation-delay:2s}.integ-grid [data-col="3"]{animation-delay:4s}.integ-grid [data-col="4"]{animation-delay:6s}.integ-grid [data-col="5"]{animation-delay:8s}
+}
+@keyframes colLit{0%,22%,100%{box-shadow:none}4%,16%{box-shadow:0 0 0 3px var(--teal-soft),0 0 0 4px var(--teal)}}
+@media (max-width:760px){
+  .integ-grid{grid-template-columns:1fr}
+  .integ .rowh{display:none}
+  .integ-grid .colh{margin-top:10px;border-top:1px solid var(--rule);padding-top:10px}
+  .integ-grid{grid-auto-flow:row}
+  .integ-grid > *{grid-column:auto!important;grid-row:auto!important}
+}
 /* impact ripple */
 .ripple{position:relative;width:100%;max-width:520px;aspect-ratio:1/1;margin:8px auto;}
 .ripple .ring{position:absolute;inset:50%;width:0;height:0;border-radius:50%;border:2px solid var(--teal);transform:translate(-50%,-50%);opacity:.35}
@@ -272,16 +298,36 @@ claude plugin install willgt-skills@willgt-skills</pre>
     <h2 id="h-story">"If I add 2FA, what breaks?"</h2>
     <span class="byline">WillGT · October 20, 2026</span>
     <p class="hook">I asked my AI agent that before writing a single line of code.</p>
-    <div class="ripple" role="img" aria-label="Adding 2FA ripples out to the login flow, password reset emails, session tests, sign-in screens, the login API and account recovery, each confirmed">
-      <div class="ring pulse"></div><div class="ring pulse d2"></div><div class="ring pulse d3"></div>
-      <div class="ring r1"></div><div class="ring r2"></div>
-      <div class="core">Add 2FA</div>
-      <div class="node" style="left:50%;top:9%">Login flow<span>✓ confirmed</span></div>
-      <div class="node" style="left:86%;top:30%">Password reset emails<span>✓ confirmed</span></div>
-      <div class="node" style="left:86%;top:70%">Session tests<span>✓ protected</span></div>
-      <div class="node" style="left:50%;top:91%">Sign-in screens<span>✓ confirmed</span></div>
-      <div class="node" style="left:14%;top:70%">Login API<span>✓ confirmed</span></div>
-      <div class="node" style="left:14%;top:30%">Account recovery<span>✓ confirmed</span></div>
+    <div class="integ" role="img" aria-label="How WillGT Skills plug into an AI development orchestrator: request, define with spec-package, impact with change-impact and a human confirmation, design with technical-design and a human approval, then build until acceptance tests pass">
+      <div class="integ-grid">
+        <div class="rowh" style="grid-column:1;grid-row:2">Your orchestrator</div>
+        <div class="rowh" style="grid-column:1;grid-row:3">WillGT skill</div>
+        <div class="rowh" style="grid-column:1;grid-row:4">Files in the repo</div>
+        <div class="rowh" style="grid-column:1;grid-row:5">Human gate</div>
+        <div class="colh" style="grid-column:2;grid-row:1">Request<small>step 1</small></div>
+        <div class="cell agent" data-col="1" style="grid-column:2;grid-row:2">Planner agent</div>
+        <div class="cell skill none" data-col="1" style="grid-column:2;grid-row:3">—</div>
+        <div class="cell file" data-col="1" style="grid-column:2;grid-row:4">“Add 2FA”</div>
+        <div class="colh" style="grid-column:3;grid-row:1">Define<small>step 2</small></div>
+        <div class="cell agent" data-col="2" style="grid-column:3;grid-row:2">Spec / PM agent</div>
+        <div class="cell skill " data-col="2" style="grid-column:3;grid-row:3">spec-package</div>
+        <div class="cell file" data-col="2" style="grid-column:3;grid-row:4">PRD.md · ac.feature · flow.yaml</div>
+        <div class="colh" style="grid-column:4;grid-row:1">Impact<small>step 3</small></div>
+        <div class="cell agent" data-col="3" style="grid-column:4;grid-row:2">Analyst agent</div>
+        <div class="cell skill " data-col="3" style="grid-column:4;grid-row:3">change-impact</div>
+        <div class="cell file" data-col="3" style="grid-column:4;grid-row:4">.willgt/impact/*.impact.yaml</div>
+        <div class="cell human" data-col="3" style="grid-column:4;grid-row:5"><b>You confirm</b>each link it found</div>
+        <div class="colh" style="grid-column:5;grid-row:1">Design<small>step 4</small></div>
+        <div class="cell agent" data-col="4" style="grid-column:5;grid-row:2">Architect agent</div>
+        <div class="cell skill " data-col="4" style="grid-column:5;grid-row:3">technical-design</div>
+        <div class="cell file" data-col="4" style="grid-column:5;grid-row:4">TRD.md · openapi.yaml</div>
+        <div class="cell human" data-col="4" style="grid-column:5;grid-row:5"><b>You approve</b>the PRD; new tech stops and asks</div>
+        <div class="colh" style="grid-column:6;grid-row:1">Build<small>step 5</small></div>
+        <div class="cell agent" data-col="5" style="grid-column:6;grid-row:2">Coder + QA agents</div>
+        <div class="cell skill none" data-col="5" style="grid-column:6;grid-row:3">acceptance tests are the contract</div>
+        <div class="cell file" data-col="5" style="grid-column:6;grid-row:4">tests RED → GREEN · protected tests stay green</div>
+      </div>
+      <p class="cap">The skills don't replace your orchestrator or its agents. They plug in as the steps those agents follow, write to files in your repo, and stop at two points for a human. Any agent that loads Agent Skills can use them; they ship as a Claude Code plugin.</p>
     </div>
     <div class="beat"><p>It answered with what the change would touch:</p>
       <ul class="answers"><li>the login flow</li><li>the password reset emails</li><li>the session tests</li><li>the screens that assumed one step was enough</li></ul>
