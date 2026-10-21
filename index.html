@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WillGT Skills</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Open-source Claude Code skills by WillGT: executable spec packages, change impact and technical design. Apache-2.0.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a spec sheet. Left-aligned column on a faint drafting grid; the pipeline diagram is the centerpiece; provenance sits in a ruled "verification record". */
+:root{
+  --paper:#f5f7f6; --sheet:#ffffff; --ink:#15201f; --muted:#56635f; --rule:#d5dedb; --grid:rgba(21,32,31,.045);
+  --teal:#0f8f86; --teal-soft:#dff3f0; --magenta:#b0307a; --magenta-soft:#f8e5f0; --pass:#1d7a45; --code:#eef2f1;
+  --f-display:"Familjen Grotesk",ui-sans-serif,system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0e1413; --sheet:#141c1b; --ink:#e3ebe8; --muted:#97a6a1; --rule:#26322f; --grid:rgba(227,235,232,.035);
+  --teal:#49cfc2; --teal-soft:#123331; --magenta:#e77ab6; --magenta-soft:#3a1a2c; --pass:#5fd08f; --code:#1a2423; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0e1413; --sheet:#141c1b; --ink:#e3ebe8; --muted:#97a6a1; --rule:#26322f; --grid:rgba(227,235,232,.035);
+  --teal:#49cfc2; --teal-soft:#123331; --magenta:#e77ab6; --magenta-soft:#3a1a2c; --pass:#5fd08f; --code:#1a2423; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 72px;display:flex;flex-direction:column;gap:64px}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;line-height:1.1}
+h1{font-size:clamp(40px,7vw,72px);font-weight:700;letter-spacing:-.02em}
+h2{font-size:clamp(26px,3.6vw,34px);font-weight:700}
+h3{font-size:20px;font-weight:700}
+p{margin:0;max-width:65ch}
+a{color:var(--teal);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+.label{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--f-mono)}
+section{display:flex;flex-direction:column;gap:20px}
+nav{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;justify-content:space-between}
+.brand{font-family:var(--f-display);font-weight:700;font-size:20px;color:var(--ink);text-decoration:none}
+.brand b{background:linear-gradient(90deg,var(--teal),var(--magenta));-webkit-background-clip:text;background-clip:text;color:transparent}
+.navlinks{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px}
+.navlinks a{color:var(--muted);text-decoration:none}.navlinks a:hover{color:var(--ink)}
+.hero{display:flex;flex-direction:column;gap:20px}
+.hero .lede{font-size:clamp(18px,2.2vw,21px);color:var(--muted)}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.install{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+pre{margin:0;background:var(--code);border:1px solid var(--rule);border-radius:8px;padding:14px 16px;overflow-x:auto;font-family:var(--f-mono);font-size:14px;line-height:1.55;min-width:0}
+.install pre{flex:1 1 420px}
+button{font:inherit;font-weight:600;border-radius:8px;border:1px solid var(--rule);background:var(--sheet);color:var(--ink);padding:10px 16px;cursor:pointer}
+button.primary{background:var(--teal);border-color:var(--teal);color:var(--sheet)}
+.facts{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--f-mono);font-size:12.5px;padding:4px 10px;border:1px solid var(--rule);border-radius:999px;background:var(--sheet);color:var(--muted)}
+.chip strong{color:var(--ink);font-weight:500}
+/* pipeline */
+.pipeline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--rule);border-radius:12px;background:var(--sheet);overflow:hidden}
+.stage{padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px;position:relative;min-width:0;border-right:1px solid var(--rule)}
+.stage:last-child{border-right:none}
+.stage .step{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.stage .skill{font-family:var(--f-mono);font-size:13px;font-weight:500;color:var(--teal);background:var(--teal-soft);align-self:flex-start;padding:2px 8px;border-radius:4px}
+.stage.build .skill{color:var(--magenta);background:var(--magenta-soft)}
+.stage ul{margin:0;padding-left:18px;font-size:14px;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.gate{margin-top:auto;font-size:13px;border-top:1px dashed var(--rule);padding-top:10px;color:var(--ink)}
+.gate span{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--magenta);display:block}
+.stage:not(:last-child)::after{content:"→";position:absolute;right:-10px;top:18px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:1px solid var(--rule);font-size:12px;display:grid;place-items:center;color:var(--muted);z-index:1}
+@media (max-width:820px){.pipeline{grid-template-columns:1fr}.stage{border-right:none;border-bottom:1px solid var(--rule)}.stage:last-child{border-bottom:none}.stage:not(:last-child)::after{content:"↓";right:auto;left:18px;top:auto;bottom:-10px}}
+/* skills */
+.skills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:820px){.skills{grid-template-columns:1fr}}
+.card{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card .rules{margin:0;padding-left:18px;font-size:14px;display:flex;flex-direction:column;gap:4px}
+.gherkin{font-size:13px}
+.gherkin .k{color:var(--magenta)}.gherkin .c{color:var(--muted)}
+/* evals */
+.bars{display:flex;flex-direction:column;gap:16px;background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:20px}
+.bar-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:6px 16px;align-items:center}
+@media (max-width:520px){.bar-row{grid-template-columns:1fr}}
+.bar-name{font-family:var(--f-mono);font-size:14px}
+.bar-name small{display:block;color:var(--muted);font-size:12px}
+.track{display:flex;flex-direction:column;gap:4px}
+.bar{height:14px;border-radius:3px;background:var(--rule);position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;border-radius:3px;background:var(--teal)}
+.bar.base i{background:var(--muted);min-width:2px}
+.bar-legend{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.scale{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-left:166px}
+@media (max-width:520px){.scale{margin-left:0}}
+/* verification */
+.record{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+.record table{width:100%;border-collapse:collapse;font-size:14.5px}
+.record th,.record td{text-align:left;padding:12px 16px;border-top:1px solid var(--rule);vertical-align:top}
+.record tr:first-child th,.record tr:first-child td{border-top:none}
+.record th{width:34%;font-weight:500;color:var(--muted)}
+.record td{font-family:var(--f-mono);font-size:13.5px;word-break:break-word}
+.tablewrap{overflow-x:auto}
+.check{color:var(--pass);font-weight:600}
+.note{font-size:14px;color:var(--muted)}
+/* article */
+article{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:clamp(20px,4vw,40px);display:flex;flex-direction:column;gap:16px}
+article h2{font-size:clamp(28px,4vw,40px)}
+article .byline{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+article p{font-size:17px}
+footer{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:20px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="brand" href="https://github.com/willgt-oss" target="_blank" rel="noopener">Will<b>GT</b> <span class="label" style="margin-left:6px">open source</span></a>
+    <div class="navlinks"><a href="#how">How it works</a><a href="#skills">Skills</a><a href="#evals">Evals</a><a href="#verify">Verify</a><a href="#launch">Launch post</a><a href="https://github.com/willgt-oss/willgt-skills" target="_blank" rel="noopener">GitHub</a></div>
+  </nav>
+
+  <header class="hero">
+    <span class="label">WillGT Skills · v0.1.0 · Apache-2.0</span>
+    <h1>Give AI agents a spec they can <em>prove</em> they built.</h1>
+    <p class="lede">Three Claude Code skills: define a feature as files in your repo, see what it touches before anyone builds, and design the build at the depth you choose. Done is test output, not a claim.</p>
+    <div class="install">
+      <pre id="install-cmd">claude plugin marketplace add willgt-oss/willgt-skills
+claude plugin install willgt-skills@willgt-skills</pre>
+      <button class="primary" type="button" id="copy">Copy install</button>
+    </div>
+    <div class="facts">
+      <span class="chip">publisher <strong>willgt-oss</strong></span>
+      <span class="chip">license <strong>Apache-2.0</strong></span>
+      <span class="chip">evals <strong>31 / 32 pass</strong></span>
+      <span class="chip">network calls <strong>none</strong></span>
+    </div>
+  </header>
+
+  <section id="how" aria-labelledby="h-how">
+    <span class="label">How it works</span>
+    <h2 id="h-how">Four steps, three skills, one rule: the files win.</h2>
+    <div class="pipeline" role="list">
+      <div class="stage" role="listitem">
+        <span class="step">1 · Define</span><span class="skill">spec-package</span>
+        <ul><li>PRD with requirement ids</li><li>Acceptance tests (Gherkin)</li><li>Flow, screen and API contracts</li></ul>
+        <div class="gate"><span>Gate</span>Requirements link to AC ids</div>
+      </div>
+      <div class="stage" role="listitem">
+        <span class="step">2 · Find what it touches</span><span class="skill">change-impact</span>
+        <ul><li>Existing requirements, screens, APIs, events, tests</li><li>Each link proposed as a question</li></ul>
+        <div class="gate"><span>Gate</span>You confirm each link; confirmed tests are protected</div>
+      </div>
+      <div class="stage" role="listitem">
+        <span class="step">3 · Design the build</span><span class="skill">technical-design</span>
+        <ul><li>TRD, API and event fragments</li><li>Decision records, reuse scan</li><li>Depth: light · standard · full</li></ul>
+        <div class="gate"><span>Gate</span>Approved PRD; new libraries stop and ask you</div>
+      </div>
+      <div class="stage build" role="listitem">
+        <span class="step">4 · Build</span><span class="skill">your agent</span>
+        <ul><li>Tests committed failing (RED)</li><li>Implement until GREEN</li><li>Assertions never edited</li></ul>
+        <div class="gate"><span>Gate</span>Done = runner output, diffed against RED</div>
+      </div>
+    </div>
+    <p class="note">First run asks six setup questions (where specs live, how approval works, design depth, test runner) and saves them to <span class="mono">.willgt/skills.yaml</span>. Each skill also works on its own.</p>
+  </section>
+
+  <section id="skills" aria-labelledby="h-skills">
+    <span class="label">The skills</span>
+    <h2 id="h-skills">What each one refuses to do is the point.</h2>
+    <div class="skills">
+      <div class="card">
+        <span class="skill mono" style="color:var(--teal)">spec-package</span>
+        <h3>An executable spec in your repo</h3>
+        <ul class="rules"><li>Briefs carry a package path, never prose pasted into chat.</li><li>Done means the package's acceptance tests pass.</li><li>No backfilling screens nobody is changing.</li></ul>
+<pre class="gherkin"><span class="c"># AC-PR-001</span>
+<span class="k">Scenario:</span> reset link expires
+  <span class="k">Given</span> a reset link older than 30 minutes
+  <span class="k">When</span> it is opened
+  <span class="k">Then</span> the reset is refused</pre>
+      </div>
+      <div class="card">
+        <span class="skill mono" style="color:var(--teal)">change-impact</span>
+        <h3>See what a change breaks before it ships</h3>
+        <ul class="rules"><li>Searches specs by id and term for related requirements, flows, APIs and tests.</li><li>Nothing is linked until you confirm it.</li><li>A protected test that fails is a bug, not a test to update.</li></ul>
+<pre class="gherkin"><span class="c">affects:</span> AC-LOGIN-004
+<span class="c">related_test:</span> auth/login.feature
+<span class="c">status:</span> <span class="k">confirmed</span></pre>
+      </div>
+      <div class="card">
+        <span class="skill mono" style="color:var(--teal)">technical-design</span>
+        <h3>A build design at the depth you choose</h3>
+        <ul class="rules"><li>Refuses to start from a draft PRD.</li><li>New library or service: stops and lists options for you.</li><li>Never installs anything.</li></ul>
+<pre class="gherkin"><span class="c">design_depth:</span> standard
+<span class="c">approval:</span> pr-merge
+<span class="c">new_technology:</span> <span class="k">ask-human</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="evals" aria-labelledby="h-evals">
+    <span class="label">Evals · release commit · 3 runs per case</span>
+    <h2 id="h-evals">Tested against Claude without the skills.</h2>
+    <div class="bars">
+      <div class="bar-row"><div class="bar-name">change-impact<small>7 cases · 7 pass</small></div>
+        <div class="track"><div class="bar" title="with skill 100%"><i style="width:100%"></i></div><div class="bar base" title="without 0%"><i style="width:0%"></i></div><div class="bar-legend"><span>with skill 100%</span><span>without 0%</span></div></div></div>
+      <div class="bar-row"><div class="bar-name">technical-design<small>7 cases · 7 pass</small></div>
+        <div class="track"><div class="bar" title="with skill 100%"><i style="width:100%"></i></div><div class="bar base" title="without 0%"><i style="width:0%"></i></div><div class="bar-legend"><span>with skill 100%</span><span>without 0%</span></div></div></div>
+      <div class="bar-row"><div class="bar-name">spec-package<small>18 cases · 17 pass</small></div>
+        <div class="track"><div class="bar" title="with skill 94%"><i style="width:94%"></i></div><div class="bar base" title="without 0%"><i style="width:0%"></i></div><div class="bar-legend"><span>with skill 94%</span><span>without 0%</span></div></div></div>
+    </div>
+    <p class="note">Run with <span class="mono">claude plugin eval</span> and its no-skill baseline arm. Every grader fails an answer that only says the skill could not be loaded. Cases live in the repo's <span class="mono">evals/</span> folder, so you can run them yourself.</p>
+  </section>
+
+  <section id="verify" aria-labelledby="h-verify">
+    <span class="label">Verification record</span>
+    <h2 id="h-verify">How to know you have the real one.</h2>
+    <div class="record"><div class="tablewrap"><table>
+      <tr><th>Publisher</th><td><a href="https://github.com/willgt-oss" target="_blank" rel="noopener">github.com/willgt-oss</a> (display name WillGT)</td></tr>
+      <tr><th>Repository</th><td><a href="https://github.com/willgt-oss/willgt-skills" target="_blank" rel="noopener">willgt-oss/willgt-skills</a></td></tr>
+      <tr><th>Release</th><td><a href="https://github.com/willgt-oss/willgt-skills/releases/tag/v0.1.0" target="_blank" rel="noopener">v0.1.0</a> · commit 00b210a · author WillGT</td></tr>
+      <tr><th>Plugin name</th><td>willgt-skills@willgt-skills</td></tr>
+      <tr><th>License</th><td>Apache-2.0 · NOTICE reads "Created by WillGT"</td></tr>
+      <tr><th>Checks before release</th><td><span class="check">✓</span> plugin validate --strict · <span class="check">✓</span> Agent Skills validator · <span class="check">✓</span> Anthropic skill checklist · <span class="check">✓</span> secret and private-term scan · <span class="check">✓</span> baseline evals</td></tr>
+      <tr><th>What it runs</th><td>Markdown instructions and templates. No network calls, no installs.</td></tr>
+    </table></div></div>
+    <p class="note">Forks are welcome under Apache-2.0. A fork keeps LICENSE and NOTICE, marks changed files and uses its own name; "WillGT" may describe it ("based on WillGT Skills") but not name it. Security issues go through GitHub private vulnerability reporting on the repository.</p>
+  </section>
+
+  <article id="launch" aria-labelledby="h-launch">
+    <span class="label">Launch post</span>
+    <h2 id="h-launch">Stop letting AI agents build from vague specs</h2>
+    <span class="byline">WillGT · October 20, 2026</span>
+    <p>Ask an AI coding agent to "add password reset" and you will get code. It will look right. Whether it is right is a different question. Two things usually go wrong.</p>
+    <p>First, the agent builds from a loose description. Nobody wrote down what "done" means, so "done" becomes a claim: the agent says the tests pass, or the screen looks fine.</p>
+    <p>Second, nobody checks what the new feature touches. The login route, an existing email flow, a test that assumed the old behavior. The change lands, and something else breaks.</p>
+    <p>Today I am releasing WillGT Skills, three open-source skills for Claude Code that address both. They are Apache-2.0, created by WillGT, and install as a Claude Code plugin.</p>
+    <p><strong>spec-package</strong> defines a feature as files in your repo: a PRD with requirement ids, acceptance tests in Gherkin, flows, screen contracts and API fragments. The acceptance tests are committed failing, by someone other than the implementer. The agent's job is to make them pass without editing their assertions. Done is the test output, not a statement.</p>
+    <p><strong>change-impact</strong> searches your existing specs for requirements, screens, flows, APIs, events and tests the new feature may touch. It proposes each as a question to you. Nothing is linked until you confirm it. Confirmed tests become protected, and a protected test that fails is a bug.</p>
+    <p><strong>technical-design</strong> writes the build design for an approved feature: a TRD, API and event fragments, decision records and a reuse scan, at the depth you set in setup. It refuses to start from a draft PRD. If the design needs a new library or service, it stops and asks you to choose between options. It does not install anything.</p>
+    <p>They chain: define, find what it touches, design the build, implement against failing tests. You can also use one alone.</p>
+    <p>Some limits. The skills are markdown instructions and templates, so they make no network calls of their own. Link finding is text and id matching, so a dependency that shares no term with the feature is found only if you name it. No CI enforces the package format yet.</p>
+    <p>Before release the plugin was validated, reviewed against Anthropic's skill checklist, tested with evals against a no-skill baseline, and security reviewed. With the skills, 31 of 32 test cases fully pass (change-impact 7/7, technical-design 7/7, spec-package 17/18); without them, Claude passes none.</p>
+    <p>Fork it, use it at work. Keep the license and notice, and rename your fork. If you want to collaborate or partner, open an issue or a discussion on GitHub.</p>
+  </article>
+
+  <footer>
+    <span>© 2026 WillGT · Code under Apache-2.0 · WillGT™ is a trademark of WillGT</span>
+    <span><a href="https://github.com/willgt-oss/willgt-skills/discussions" target="_blank" rel="noopener">Collaborate on GitHub</a></span>
+  </footer>
+</div>
+
+<script>
+document.getElementById("copy").addEventListener("click", async (e) => {
+  const btn = e.currentTarget, text = document.getElementById("install-cmd").textContent;
+  try { await navigator.clipboard.writeText(text); btn.textContent = "Copied"; }
+  catch (_) { const r = document.createRange(); r.selectNodeContents(document.getElementById("install-cmd")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Selected, press copy"; }
+  setTimeout(() => { btn.textContent = "Copy install"; }, 2000);
+});
+</script>
+</body>
+</html>
