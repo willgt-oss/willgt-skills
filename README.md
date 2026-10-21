@@ -40,14 +40,6 @@ claude plugin marketplace add willgt-oss/willgt-skills
 claude plugin install willgt-skills@willgt-skills
 ```
 
-Or clone and validate locally:
-
-```bash
-git clone https://github.com/willgt-oss/willgt-skills.git
-cd willgt-skills
-claude plugin validate --strict .
-```
-
 Skills live under `skills/<name>/` and follow the [Agent Skills](https://agentskills.io) layout (`SKILL.md`).
 
 You also need a git repo for your project. Acceptance tests run with your own test runner (for example Playwright, Jest, pytest, kotlin-test or Maestro). The skills do not install one.
@@ -159,7 +151,7 @@ Before release, the skills went through these checks:
 - **Anthropic skill checklist.** Each skill was reviewed against Anthropic's "Checklist for effective Skills" (description, body length, one-level reference files, examples).
 - **Evals against a no-skill baseline.** Eval cases for each skill live in `evals/`. Each is run with the skill and without it, and the results are compared.
 
-  Results for v0.1.0 (32 cases, 3 runs each, Claude Code `claude plugin eval` with a no-skill baseline arm):
+  Results for v0.1.0 (32 cases, 3 runs each, Claude Code's plugin eval tool with a no-skill baseline arm):
 
   | Skill | Cases | Score with skill | Score without skill | Cases fully passing |
   |---|---|---|---|---|

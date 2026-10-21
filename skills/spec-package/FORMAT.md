@@ -50,7 +50,7 @@ products:
         delivery_mode: ai          # ai | specialist | hybrid
         grants:
           - mod.voice
-          - host.eval
+          - host.analytics
 ```
 
 - `grants[]` **must be a subset of** the runtime catalog (`module_feature_catalog`). Runtime is the
