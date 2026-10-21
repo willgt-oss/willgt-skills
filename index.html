@@ -134,6 +134,41 @@ footer{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;fo
 .whys li{border:1px solid var(--rule);border-radius:10px;padding:14px 16px;background:var(--paper);display:flex;flex-direction:column;gap:6px;min-width:0}
 .whys b{font-family:var(--f-display);font-size:17px}
 .whys span{font-size:15px;color:var(--muted)}
+/* plug-in flow */
+.plug{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:20px 16px 16px;display:flex;flex-direction:column;gap:14px}
+.plug .frame{border:1px dashed var(--rule);border-radius:10px;padding:26px 12px 14px;position:relative}
+.plug .frame > .label{position:absolute;top:-9px;left:12px;background:var(--sheet);padding:0 6px}
+.plug ol{list-style:none;margin:0;padding:0;display:flex;align-items:flex-start;justify-content:space-between;gap:6px;position:relative}
+.plug ol::before{content:"";position:absolute;left:8%;right:8%;top:21px;height:2px;background:var(--rule)}
+.plug li{position:relative;z-index:1;flex:1 1 0;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;min-width:0}
+.plug .dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--paper);border:2px solid var(--rule);font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.plug li.sk .dot{background:var(--teal-soft);border-color:var(--teal);color:var(--teal);font-weight:600}
+.plug li.done .dot{border-color:var(--pass);color:var(--pass)}
+.plug .name{font-family:var(--f-display);font-weight:700;font-size:15px}
+.plug code{font-family:var(--f-mono);font-size:11.5px;color:var(--teal)}
+.plug .you{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--magenta);border:1px solid var(--magenta);border-radius:999px;padding:1px 7px}
+.plug .cap{font-size:14px;color:var(--muted);text-align:center;max-width:none}
+@media (prefers-reduced-motion:no-preference){
+  .plug li .dot{animation:stepLit 8s ease-in-out infinite}
+  .plug li:nth-child(2) .dot{animation-delay:1.6s}.plug li:nth-child(3) .dot{animation-delay:3.2s}.plug li:nth-child(4) .dot{animation-delay:4.8s}.plug li:nth-child(5) .dot{animation-delay:6.4s}
+}
+@keyframes stepLit{0%,24%,100%{transform:scale(1);box-shadow:none}6%,16%{transform:scale(1.12);box-shadow:0 0 0 5px var(--teal-soft)}}
+@media (max-width:620px){
+  .plug ol{flex-direction:column;align-items:stretch;gap:14px}
+  .plug ol::before{left:21px;right:auto;top:8px;bottom:8px;width:2px;height:auto}
+  .plug li{flex-direction:row;text-align:left;gap:12px;align-items:center;flex-wrap:wrap}
+  .plug .dot{flex:0 0 44px}
+}
+/* before / after */
+.vs{display:flex;flex-direction:column;gap:14px}
+.vs .frame{background:var(--sheet)}
+.vs .frame.without{border-color:var(--rule)}
+.vs .frame.with{border-style:solid;border-color:var(--teal)}
+.vs .frame.with > .label{color:var(--teal)}
+.plug li.bad .dot{border-color:var(--magenta);color:var(--magenta);background:var(--magenta-soft)}
+.plug li.bad code{color:var(--magenta)}
+.plug li.plain code{color:var(--muted)}
+.vs .without ol::before{left:12%;right:12%}
 /* integration diagram */
 .integ{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
 .integ-grid{display:grid;grid-template-columns:120px repeat(5,minmax(0,1fr));gap:8px;align-items:stretch}
@@ -298,36 +333,24 @@ claude plugin install willgt-skills@willgt-skills</pre>
     <h2 id="h-story">"If I add 2FA, what breaks?"</h2>
     <span class="byline">WillGT · October 20, 2026</span>
     <p class="hook">I asked my AI agent that before writing a single line of code.</p>
-    <div class="integ" role="img" aria-label="How WillGT Skills plug into an AI development orchestrator: request, define with spec-package, impact with change-impact and a human confirmation, design with technical-design and a human approval, then build until acceptance tests pass">
-      <div class="integ-grid">
-        <div class="rowh" style="grid-column:1;grid-row:2">Your orchestrator</div>
-        <div class="rowh" style="grid-column:1;grid-row:3">WillGT skill</div>
-        <div class="rowh" style="grid-column:1;grid-row:4">Files in the repo</div>
-        <div class="rowh" style="grid-column:1;grid-row:5">Human gate</div>
-        <div class="colh" style="grid-column:2;grid-row:1">Request<small>step 1</small></div>
-        <div class="cell agent" data-col="1" style="grid-column:2;grid-row:2">Planner agent</div>
-        <div class="cell skill none" data-col="1" style="grid-column:2;grid-row:3">—</div>
-        <div class="cell file" data-col="1" style="grid-column:2;grid-row:4">“Add 2FA”</div>
-        <div class="colh" style="grid-column:3;grid-row:1">Define<small>step 2</small></div>
-        <div class="cell agent" data-col="2" style="grid-column:3;grid-row:2">Spec / PM agent</div>
-        <div class="cell skill " data-col="2" style="grid-column:3;grid-row:3">spec-package</div>
-        <div class="cell file" data-col="2" style="grid-column:3;grid-row:4">PRD.md · ac.feature · flow.yaml</div>
-        <div class="colh" style="grid-column:4;grid-row:1">Impact<small>step 3</small></div>
-        <div class="cell agent" data-col="3" style="grid-column:4;grid-row:2">Analyst agent</div>
-        <div class="cell skill " data-col="3" style="grid-column:4;grid-row:3">change-impact</div>
-        <div class="cell file" data-col="3" style="grid-column:4;grid-row:4">.willgt/impact/*.impact.yaml</div>
-        <div class="cell human" data-col="3" style="grid-column:4;grid-row:5"><b>You confirm</b>each link it found</div>
-        <div class="colh" style="grid-column:5;grid-row:1">Design<small>step 4</small></div>
-        <div class="cell agent" data-col="4" style="grid-column:5;grid-row:2">Architect agent</div>
-        <div class="cell skill " data-col="4" style="grid-column:5;grid-row:3">technical-design</div>
-        <div class="cell file" data-col="4" style="grid-column:5;grid-row:4">TRD.md · openapi.yaml</div>
-        <div class="cell human" data-col="4" style="grid-column:5;grid-row:5"><b>You approve</b>the PRD; new tech stops and asks</div>
-        <div class="colh" style="grid-column:6;grid-row:1">Build<small>step 5</small></div>
-        <div class="cell agent" data-col="5" style="grid-column:6;grid-row:2">Coder + QA agents</div>
-        <div class="cell skill none" data-col="5" style="grid-column:6;grid-row:3">acceptance tests are the contract</div>
-        <div class="cell file" data-col="5" style="grid-column:6;grid-row:4">tests RED → GREEN · protected tests stay green</div>
+    <div class="plug vs" role="img" aria-label="Without the skills: request, the agent codes, it says done, and something else breaks. With the skills: request, define, impact with your confirmation, design with your approval, build until tests pass.">
+      <div class="frame without"><span class="label">AI agent without the skills</span>
+        <ol>
+          <li><span class="dot">→</span><span class="name">Request</span><code>"Add 2FA"</code></li>
+          <li class="plain"><span class="dot">⌨</span><span class="name">Code</span><code>starts right away</code></li>
+          <li class="plain"><span class="dot">?</span><span class="name">"Done"</span><code>a claim</code></li>
+          <li class="bad"><span class="dot">✗</span><span class="name">Breaks</span><code>login, emails, tests</code></li>
+        </ol>
       </div>
-      <p class="cap">The skills don't replace your orchestrator or its agents. They plug in as the steps those agents follow, write to files in your repo, and stop at two points for a human. Any agent that loads Agent Skills can use them; they ship as a Claude Code plugin.</p>
+      <div class="frame with"><span class="label">AI agent with WillGT Skills</span>
+        <ol>
+          <li><span class="dot">→</span><span class="name">Request</span><code>"Add 2FA"</code></li>
+          <li class="sk"><span class="dot">1</span><span class="name">Define</span><code>spec-package</code></li>
+          <li class="sk"><span class="dot">2</span><span class="name">Impact</span><code>change-impact</code><span class="you">you confirm</span></li>
+          <li class="sk"><span class="dot">3</span><span class="name">Design</span><code>technical-design</code><span class="you">you approve</span></li>
+          <li class="done"><span class="dot">✓</span><span class="name">Build</span><code>tests pass</code></li>
+        </ol>
+      </div>
     </div>
     <div class="beat"><p>It answered with what the change would touch:</p>
       <ul class="answers"><li>the login flow</li><li>the password reset emails</li><li>the session tests</li><li>the screens that assumed one step was enough</li></ul>
