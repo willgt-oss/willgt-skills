@@ -3,7 +3,6 @@ name: spec-package
 description: >-
   Repo-local executable specification package format: package layout, types, runners, and implementation loop so agents implement against signed AC colocated with the code. Use when adopting the format, filling package cells, handing off implementation, or verifying done via green AC.
 license: Apache-2.0
-allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 metadata:
   author: WillGT
   version: "2.1.0"

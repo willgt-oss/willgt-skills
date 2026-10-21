@@ -34,7 +34,7 @@ extension when possible.
 
 | id | Runs | AC file in the screen folder | Command shape | Status |
 |---|---|---|---|---|
-| `playwright` | Web UI, end to end | `ac.spec.ts` | `npx playwright test <path>` | **Verified** against product spec packages |
+| `playwright` | Web UI, end to end | `ac.spec.ts` | `playwright test <path>` (the project's own Playwright install) | **Verified** against product spec packages |
 | `kotlin-test` | KMP / JVM unit + presentation logic | `<Screen>Test.kt` | `./gradlew :shared:testDebugUnitTest --tests <class>` | **Verified** as a runner; **not yet verified** against a spec-package AC file |
 | `maestro` | Android / iOS UI on a device or emulator | `ac.flow.yaml` | `maestro test <path>` | **Verified** for mobile UI flows; **not yet verified** against a spec-package `ac.flow.yaml` |
 

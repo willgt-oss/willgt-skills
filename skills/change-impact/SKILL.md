@@ -3,7 +3,6 @@ name: change-impact
 description: >-
   Finds existing requirements, screens, flows, API paths, events and acceptance ids a new feature may touch or depend on; proposes each as a Product question; records only confirmed links and protected acceptance ids for verifier reruns. Use at feature intake and before technical design when asked what existing behavior a change can break.
 license: Apache-2.0
-allowed-tools: Read, Write, Grep, Glob, Bash
 metadata:
   author: WillGT
   version: "0.3.0"

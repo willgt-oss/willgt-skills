@@ -3,7 +3,6 @@ name: technical-design
 description: >-
   Writes Level-3 how-it-is-built design for an approved feature: TRD (and optional OpenAPI / event schema / decision records) from templates and confirmed change-impact links; stops and asks the human when new technology is involved. Depth and approval come from `.willgt/skills.yaml`. Use when designing an approved feature or recording a technical decision. Refuses draft / unapproved PRDs.
 license: Apache-2.0
-allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 metadata:
   author: WillGT
   version: "0.2.0"
