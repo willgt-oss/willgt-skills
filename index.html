@@ -116,6 +116,17 @@ footer{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;fo
 @media (max-width:720px){.steps{grid-template-columns:1fr 1fr}}
 .proof{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;font-family:var(--f-mono);font-size:14px}
 .proof b{font-family:var(--f-display);font-size:34px;color:var(--teal)}
+.problems{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:720px){.problems{grid-template-columns:1fr}}
+.problem{border:1px solid var(--rule);border-radius:10px;padding:14px 16px;background:var(--paper);display:flex;flex-direction:column;gap:6px;min-width:0}
+.problem b{font-family:var(--f-display);font-size:18px}
+.problem p{font-size:15.5px;color:var(--muted)}
+.trio{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.trio li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:4px 16px;align-items:baseline;font-size:16px}
+@media (max-width:620px){.trio li{grid-template-columns:1fr}}
+.trio code{font-family:var(--f-mono);font-size:14px;color:var(--teal);background:var(--teal-soft);padding:2px 8px;border-radius:4px;justify-self:start}
+.limits{border:1px dashed var(--rule);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.limits ul{margin:0;padding-left:18px;font-size:15.5px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
 /* impact ripple */
 .ripple{position:relative;width:100%;max-width:520px;aspect-ratio:1/1;margin:8px auto;}
 .ripple .ring{position:absolute;inset:50%;width:0;height:0;border-radius:50%;border:2px solid var(--teal);transform:translate(-50%,-50%);opacity:.35}
@@ -281,21 +292,28 @@ claude plugin install willgt-skills@willgt-skills</pre>
     <p class="hook">If you have watched an agent confidently break something it never looked at, ask it what breaks first.</p>
   </article>
 
-  <article id="launch" aria-labelledby="h-launch">
+  <article id="launch" class="story" aria-labelledby="h-launch">
     <span class="label">Launch post</span>
     <h2 id="h-launch">Stop letting AI agents build from vague specs</h2>
     <span class="byline">WillGT · October 20, 2026</span>
-    <p>Ask an AI coding agent to "add password reset" and you will get code. It will look right. Whether it is right is a different question. Two things usually go wrong.</p>
-    <p>First, the agent builds from a loose description. Nobody wrote down what "done" means, so "done" becomes a claim: the agent says the tests pass, or the screen looks fine.</p>
-    <p>Second, nobody checks what the new feature touches. The login route, an existing email flow, a test that assumed the old behavior. The change lands, and something else breaks.</p>
-    <p>Today I am releasing WillGT Skills, three open-source skills for Claude Code that address both. They are Apache-2.0, created by WillGT, and install as a Claude Code plugin.</p>
-    <p><strong>spec-package</strong> defines a feature as files in your repo: a PRD with requirement ids, acceptance tests in Gherkin, flows, screen contracts and API fragments. The acceptance tests are committed failing, by someone other than the implementer. The agent's job is to make them pass without editing their assertions. Done is the test output, not a statement.</p>
-    <p><strong>change-impact</strong> searches your existing specs for requirements, screens, flows, APIs, events and tests the new feature may touch. It proposes each as a question to you. Nothing is linked until you confirm it. Confirmed tests become protected, and a protected test that fails is a bug.</p>
-    <p><strong>technical-design</strong> writes the build design for an approved feature: a TRD, API and event fragments, decision records and a reuse scan, at the depth you set in setup. It refuses to start from a draft PRD. If the design needs a new library or service, it stops and asks you to choose between options. It does not install anything.</p>
-    <p>They chain: define, find what it touches, design the build, implement against failing tests. You can also use one alone.</p>
-    <p>Some limits. The skills are markdown instructions and templates, so they make no network calls of their own. Link finding is text and id matching, so a dependency that shares no term with the feature is found only if you name it. No CI enforces the package format yet.</p>
-    <p>Before release the plugin was validated, reviewed against Anthropic's skill checklist, tested with evals against a no-skill baseline, and security reviewed. With the skills, 31 of 32 test cases fully pass (change-impact 7/7, technical-design 7/7, spec-package 17/18); without them, Claude passes none.</p>
-    <p>Fork it, use it at work. Keep the license and notice, and rename your fork. If you want to collaborate or partner, open an issue or a discussion on GitHub.</p>
+    <p class="hook">Ask an AI agent to "add password reset" and you will get code. It will look right. Whether it is right is a different question.</p>
+    <div class="problems">
+      <div class="problem"><b>"Done" is a claim</b><p>The agent builds from a loose description. Nobody wrote down what done means, so done becomes "the tests pass" or "the screen looks fine".</p></div>
+      <div class="problem"><b>Nobody checks what it touches</b><p>The login route, an email flow, a test that assumed the old behavior. The change lands, and something else breaks.</p></div>
+    </div>
+    <p class="hook">Today I'm releasing WillGT Skills: three open-source skills for Claude Code that fix both.</p>
+    <ul class="trio">
+      <li><code>spec-package</code><span>Defines the feature as files in your repo: requirements with ids, acceptance tests in Gherkin, flows, screen and API contracts. The tests are committed failing; the agent makes them pass without editing them.</span></li>
+      <li><code>change-impact</code><span>Finds the requirements, screens, APIs, events and tests the feature may touch, and asks you about each one. Confirmed tests become protected.</span></li>
+      <li><code>technical-design</code><span>Writes the build design at the depth you choose. Refuses a draft PRD. Stops and asks before any new library or service.</span></li>
+    </ul>
+    <p class="pull">Define → find what it touches → design → build until the tests pass.<small>Use the three together, or any one alone.</small></p>
+    <div class="proof"><b>31 / 32</b> eval cases pass with the skills · <b>0</b> without</div>
+    <div class="limits"><span class="label">Limits, stated plainly</span>
+      <ul><li>Markdown instructions and templates only. No network calls, no installs.</li><li>Link finding is text and id matching: a dependency that shares no term with the feature is found only if you name it.</li><li>No CI enforces the package format yet.</li></ul></div>
+    <pre>claude plugin marketplace add willgt-oss/willgt-skills
+claude plugin install willgt-skills@willgt-skills</pre>
+    <p>Apache-2.0, created by WillGT. Fork it and use it at work: keep the license and notice, and rename your fork. Want to collaborate or partner? <a href="https://github.com/willgt-oss/willgt-skills/discussions" target="_blank" rel="noopener">Open a discussion on GitHub</a>.</p>
   </article>
 
   <footer>
