@@ -101,6 +101,36 @@ article h2{font-size:clamp(28px,4vw,40px)}
 article .byline{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
 article p{font-size:17px}
 footer{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:20px}
+/* story */
+.story{gap:22px}
+.story .hook{font-family:var(--f-display);font-size:clamp(22px,3vw,28px);font-weight:700;line-height:1.25;max-width:32ch}
+.story .beat{display:flex;flex-direction:column;gap:6px}
+.story .beat p{font-size:18px}
+.answers{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:17px}
+.answers li::before{content:"→ ";color:var(--teal);font-weight:600}
+.pull{margin:4px 0;padding:18px 20px;border-left:3px solid var(--magenta);background:var(--magenta-soft);border-radius:0 10px 10px 0;font-family:var(--f-display);font-size:clamp(20px,2.6vw,26px);line-height:1.3;max-width:none}
+.pull small{display:block;font-family:var(--f-body);font-size:14px;color:var(--muted);margin-top:6px}
+.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.steps li{counter-increment:s;border:1px solid var(--rule);border-radius:10px;padding:12px;font-size:15px;background:var(--paper);min-width:0}
+.steps li::before{content:counter(s);display:block;font-family:var(--f-mono);font-size:12px;color:var(--teal)}
+@media (max-width:720px){.steps{grid-template-columns:1fr 1fr}}
+.proof{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;font-family:var(--f-mono);font-size:14px}
+.proof b{font-family:var(--f-display);font-size:34px;color:var(--teal)}
+/* impact ripple */
+.ripple{position:relative;width:100%;max-width:520px;aspect-ratio:1/1;margin:8px auto;}
+.ripple .ring{position:absolute;inset:50%;width:0;height:0;border-radius:50%;border:2px solid var(--teal);transform:translate(-50%,-50%);opacity:.35}
+.ripple .ring.r1{width:46%;height:46%;opacity:.25}.ripple .ring.r2{width:78%;height:78%;opacity:.15}
+.ripple .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--ink);color:var(--paper);font-family:var(--f-display);font-weight:700;font-size:clamp(14px,2.4vw,18px);padding:12px 16px;border-radius:999px;white-space:nowrap;z-index:2}
+.ripple .node{position:absolute;transform:translate(-50%,-50%);background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:6px 10px;font-size:clamp(11px,1.8vw,13.5px);text-align:center;line-height:1.25;z-index:2;max-width:36%}
+.ripple .node span{display:block;font-family:var(--f-mono);font-size:10.5px;color:var(--pass)}
+@media (prefers-reduced-motion:no-preference){
+  .ripple .ring.pulse{animation:pulse 3.6s ease-out infinite}
+  .ripple .ring.pulse.d2{animation-delay:1.2s}.ripple .ring.pulse.d3{animation-delay:2.4s}
+  .ripple .node{animation:lit 7.2s ease-in-out infinite}
+  .ripple .node:nth-of-type(2){animation-delay:.6s}.ripple .node:nth-of-type(3){animation-delay:1.2s}.ripple .node:nth-of-type(4){animation-delay:1.8s}.ripple .node:nth-of-type(5){animation-delay:2.4s}.ripple .node:nth-of-type(6){animation-delay:3s}
+}
+@keyframes pulse{0%{width:10%;height:10%;opacity:.6}100%{width:96%;height:96%;opacity:0}}
+@keyframes lit{0%,100%{border-color:var(--rule);box-shadow:none}12%,40%{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-soft)}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -219,19 +249,36 @@ claude plugin install willgt-skills@willgt-skills</pre>
     <p class="note">Forks are welcome under Apache-2.0. A fork keeps LICENSE and NOTICE, marks changed files and uses its own name; "WillGT" may describe it ("based on WillGT Skills") but not name it. Security issues go through GitHub private vulnerability reporting on the repository.</p>
   </section>
 
-  <article id="what-breaks" aria-labelledby="h-story">
+  <article id="what-breaks" class="story" aria-labelledby="h-story">
     <span class="label">Story</span>
     <h2 id="h-story">"If I add 2FA, what breaks?"</h2>
     <span class="byline">WillGT · October 20, 2026</span>
-    <p>This started as a chat with friends who also build software for a living.</p>
-    <p>I told them the question I can finally ask an AI agent before any code is written: "If I add two-factor authentication, what happens to the rest of the project?" And it answers. It lists the login flow, the password reset emails, the session tests and the screens that assumed one step was enough. Then it asks me to confirm each one.</p>
-    <p>One friend said this sounded like BMAD, a method where AI agents first write PRDs and architecture documents, then write the specifications and implement them. He is right that it is close. BMAD is the process. What I built is my own implementation of one part of it, the part I kept finding missing.</p>
-    <p>Most AI tools I tried have agents that plan and design. But when you say "let's implement X", the agent starts writing code. Nobody stops to ask what X touches. That missing step is change impact, and it is where most of my bugs came from.</p>
-    <p>The second idea came from a simple question. Everyone writes unit tests. Who reads them to learn how a feature works? Usually nobody. When people bring an AI into a codebase, they tell it to read the code. I started telling it to read the tests, and the specs the tests come from. Tests describe what the system promises. Code describes how it happens to do it today.</p>
-    <p>Another friend laughed and said he spends his days arguing with people who want to exclude code from coverage. That is the same problem from the other side. If tests are the record of what a feature promises, skipping them is skipping the promise.</p>
-    <p>So the skills work in this order. First, define the feature as files: requirements with ids and acceptance tests in plain Gherkin. Second, run change impact: the AI searches the existing specs and tests for everything the feature may touch, and you confirm each link. Confirmed tests become protected. Third, design the build. Then the agent implements until the acceptance tests pass.</p>
-    <p>One thing it does not do: it does not write your test code. The skills define the acceptance tests in Gherkin and keep them honest. Turning them into runnable tests, and making them pass, is the build step.</p>
-    <p>The skills are open source. If you have ever watched an agent confidently break something it never looked at, try asking it what breaks first.</p>
+    <p class="hook">I asked my AI agent that before writing a single line of code.</p>
+    <div class="ripple" role="img" aria-label="Adding 2FA ripples out to the login flow, password reset emails, session tests, sign-in screens, the login API and account recovery, each confirmed">
+      <div class="ring pulse"></div><div class="ring pulse d2"></div><div class="ring pulse d3"></div>
+      <div class="ring r1"></div><div class="ring r2"></div>
+      <div class="core">Add 2FA</div>
+      <div class="node" style="left:50%;top:9%">Login flow<span>✓ confirmed</span></div>
+      <div class="node" style="left:86%;top:30%">Password reset emails<span>✓ confirmed</span></div>
+      <div class="node" style="left:86%;top:70%">Session tests<span>✓ protected</span></div>
+      <div class="node" style="left:50%;top:91%">Sign-in screens<span>✓ confirmed</span></div>
+      <div class="node" style="left:14%;top:70%">Login API<span>✓ confirmed</span></div>
+      <div class="node" style="left:14%;top:30%">Account recovery<span>✓ confirmed</span></div>
+    </div>
+    <div class="beat"><p>It answered with what the change would touch:</p>
+      <ul class="answers"><li>the login flow</li><li>the password reset emails</li><li>the session tests</li><li>the screens that assumed one step was enough</li></ul>
+      <p>Then it asked me to confirm each one.</p></div>
+    <p class="hook">That step is missing almost everywhere.</p>
+    <div class="beat"><p>AI agents plan well. They design well. But say "implement X" and they start coding. Nobody asks what X touches.</p>
+      <p>A friend said this sounded like BMAD, where agents write PRDs and architecture, then specs, then code. Close. BMAD is the process. I built my own take on the step I kept finding missing.</p></div>
+    <div class="beat"><p>The aha moment came from a simple question. Everyone writes unit tests. Who reads them?</p>
+      <p>We tell AI to read the code. I started telling it to read the tests.</p></div>
+    <p class="pull">Tests say what the system promises.<br>Code says how it does it today.<small>Another friend spends his days arguing with people who want to exclude code from coverage. Same problem, other side.</small></p>
+    <div class="beat"><p>So the skills work in four steps:</p>
+      <ol class="steps"><li>Define the feature as files with acceptance tests</li><li>Find what it touches and confirm each link</li><li>Design the build</li><li>Implement until the tests pass</li></ol></div>
+    <div class="proof"><b>31 / 32</b> eval cases pass with the skills · <b>0</b> without</div>
+    <p>It does not write your test code. It defines the acceptance tests in Gherkin and keeps them honest; making them run and pass is the build step.</p>
+    <p class="hook">If you have watched an agent confidently break something it never looked at, ask it what breaks first.</p>
   </article>
 
   <article id="launch" aria-labelledby="h-launch">
