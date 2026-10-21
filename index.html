@@ -109,7 +109,7 @@ footer{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;fo
 <div class="wrap">
   <nav>
     <a class="brand" href="https://github.com/willgt-oss" target="_blank" rel="noopener">Will<b>GT</b> <span class="label" style="margin-left:6px">open source</span></a>
-    <div class="navlinks"><a href="#how">How it works</a><a href="#skills">Skills</a><a href="#evals">Evals</a><a href="#verify">Verify</a><a href="#launch">Launch post</a><a href="https://github.com/willgt-oss/willgt-skills" target="_blank" rel="noopener">GitHub</a></div>
+    <div class="navlinks"><a href="#how">How it works</a><a href="#skills">Skills</a><a href="#evals">Evals</a><a href="#verify">Verify</a><a href="#what-breaks">Story</a><a href="#launch">Launch post</a><a href="https://github.com/willgt-oss/willgt-skills" target="_blank" rel="noopener">GitHub</a></div>
   </nav>
 
   <header class="hero">
@@ -218,6 +218,21 @@ claude plugin install willgt-skills@willgt-skills</pre>
     </table></div></div>
     <p class="note">Forks are welcome under Apache-2.0. A fork keeps LICENSE and NOTICE, marks changed files and uses its own name; "WillGT" may describe it ("based on WillGT Skills") but not name it. Security issues go through GitHub private vulnerability reporting on the repository.</p>
   </section>
+
+  <article id="what-breaks" aria-labelledby="h-story">
+    <span class="label">Story</span>
+    <h2 id="h-story">"If I add 2FA, what breaks?"</h2>
+    <span class="byline">WillGT · October 20, 2026</span>
+    <p>This started as a chat with friends who also build software for a living.</p>
+    <p>I told them the question I can finally ask an AI agent before any code is written: "If I add two-factor authentication, what happens to the rest of the project?" And it answers. It lists the login flow, the password reset emails, the session tests and the screens that assumed one step was enough. Then it asks me to confirm each one.</p>
+    <p>One friend said this sounded like BMAD, a method where AI agents first write PRDs and architecture documents, then write the specifications and implement them. He is right that it is close. BMAD is the process. What I built is my own implementation of one part of it, the part I kept finding missing.</p>
+    <p>Most AI tools I tried have agents that plan and design. But when you say "let's implement X", the agent starts writing code. Nobody stops to ask what X touches. That missing step is change impact, and it is where most of my bugs came from.</p>
+    <p>The second idea came from a simple question. Everyone writes unit tests. Who reads them to learn how a feature works? Usually nobody. When people bring an AI into a codebase, they tell it to read the code. I started telling it to read the tests, and the specs the tests come from. Tests describe what the system promises. Code describes how it happens to do it today.</p>
+    <p>Another friend laughed and said he spends his days arguing with people who want to exclude code from coverage. That is the same problem from the other side. If tests are the record of what a feature promises, skipping them is skipping the promise.</p>
+    <p>So the skills work in this order. First, define the feature as files: requirements with ids and acceptance tests in plain Gherkin. Second, run change impact: the AI searches the existing specs and tests for everything the feature may touch, and you confirm each link. Confirmed tests become protected. Third, design the build. Then the agent implements until the acceptance tests pass.</p>
+    <p>One thing it does not do: it does not write your test code. The skills define the acceptance tests in Gherkin and keep them honest. Turning them into runnable tests, and making them pass, is the build step.</p>
+    <p>The skills are open source. If you have ever watched an agent confidently break something it never looked at, try asking it what breaks first.</p>
+  </article>
 
   <article id="launch" aria-labelledby="h-launch">
     <span class="label">Launch post</span>
